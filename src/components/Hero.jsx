@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Wine, Sparkles, Heart, Camera, Calendar, ArrowDown } from 'lucide-react';
+import { Wine, Check, Star, ThumbsUp, Calendar, Clock, Sparkles } from 'lucide-react';
 
-export default function Hero({ coupleData }) {
+export default function Hero({ coupleData, onBrindisi }) {
   const [daysCount, setDaysCount] = useState(9131);
   const [hoursCount, setHoursCount] = useState(219144);
 
@@ -18,123 +18,133 @@ export default function Hero({ coupleData }) {
         setHoursCount(diffHours);
       }
     } catch {
-      // fallback to 9131 days (25 years)
+      // fallback
     }
   }, [coupleData.weddingDate]);
 
-  const triggerMassiveConfetti = () => {
-    // Esplosione festosa di coriandoli
-    confetti({
-      particleCount: 120,
-      spread: 90,
-      origin: { y: 0.6 },
-      colors: ['#f59e0b', '#d97706', '#94a3b8', '#e11d48', '#fbbf24']
-    });
-
-    setTimeout(() => {
+  const triggerConfetti = () => {
+    if (onBrindisi) {
+      onBrindisi();
+    } else {
       confetti({
-        particleCount: 60,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 }
+        particleCount: 110,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#609345', '#93b874', '#f59e0b', '#ffffff', '#e11d48']
       });
-      confetti({
-        particleCount: 60,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 }
-      });
-    }, 250);
+    }
   };
 
   return (
-    <section id="top" className="hero-section">
-      <div className="container hero-container">
-        <div className="hero-content">
-          <div className="hero-badge animate-float">
-            <Sparkles size={16} className="text-amber" />
-            <span>Edizione Speciale Nozze d'Argento (2001 - 2026)</span>
-          </div>
-
-          <h1 className="hero-title">
-            25 Anni Insieme... <br />
-            <span className="hero-title-highlight">e Nessun Omicidio!</span>
+    <section id="top" className="wikihow-hero-section">
+      <div className="wikihow-container">
+        <div className="wikihow-article-header">
+          {/* Titolo Ufficiale dell'Articolo wikiHow */}
+          <h1 className="article-main-title">
+            Come Sopravvivere a 25 Anni di Matrimonio (Senza Omicidi)
           </h1>
 
-          <p className="hero-subtitle">
-            Il diario segreto e semi-serio di <strong>{coupleData.groomName}</strong> e <strong>{coupleData.brideName}</strong>. 
-            Tra valigie stracolme, cene bruciate, mobili traballanti e un amore che non si è mai arreso.
-          </p>
+          {/* Byline / Metadati wikiHow */}
+          <div className="wikihow-byline-bar">
+            <div className="byline-author-info">
+              <span className="byline-text">
+                Co-redatto dallo <strong>Staff di Famiglia</strong>, <strong>{coupleData.groomName}</strong> e <strong>{coupleData.brideName}</strong>
+              </span>
+              <span className="byline-dot">•</span>
+              <span className="byline-date">
+                <Calendar size={13} /> Nozze d'Argento (26 Settembre 2001 - 2026)
+              </span>
+            </div>
 
-          {/* Survival counter pills */}
-          <div className="survival-counter-grid">
-            <div className="counter-pill">
-              <span className="pill-number">25</span>
-              <span className="pill-label">Anni Insieme</span>
+            <div className="byline-stats-badges">
+              <span className="wiki-verified-badge" title="Testato direttamente sul campo per 25 anni">
+                <span className="wiki-verified-tick-circle">
+                  <Check size={11} strokeWidth={3.5} />
+                </span>
+                <span className="wiki-verified-text">Articolo Verificato da 25 Anni di Convivenza Reale</span>
+              </span>
+              <span className="wiki-rating-badge">
+                <Star size={13} className="fill-amber text-amber" />
+                <strong>4.9 / 5.0</strong> ({daysCount.toLocaleString('it-IT')} giorni recensiti)
+              </span>
+              <span className="wiki-thumbs-badge">
+                <ThumbsUp size={13} className="text-green" />
+                100% degli invitati approva
+              </span>
             </div>
-            <div className="counter-pill">
-              <span className="pill-number">{daysCount.toLocaleString('it-IT')}</span>
-              <span className="pill-label">Giorni di Pazienza</span>
-            </div>
-            <div className="counter-pill">
-              <span className="pill-number">~{hoursCount.toLocaleString('it-IT')}</span>
-              <span className="pill-label">Ore di Chiacchiere</span>
-            </div>
-            <div className="counter-pill highlight-pill">
-              <span className="pill-number">100%</span>
-              <span className="pill-label">Felici di Esserci</span>
-            </div>
-          </div>
-
-          <div className="hero-actions">
-            <button 
-              type="button" 
-              className="btn btn-primary btn-lg"
-              onClick={triggerMassiveConfetti}
-            >
-              <Wine size={20} />
-              <span>Stappa lo Spumante! 🍾</span>
-            </button>
-            <a href="#temi" className="btn btn-secondary btn-lg">
-              <Camera size={20} />
-              <span>Esplora le Fotogallery</span>
-            </a>
-          </div>
-
-          <div className="hero-quote-box">
-            <span className="quote-icon">“</span>
-            <p className="handwritten">
-              {coupleData.introStory}
-            </p>
           </div>
         </div>
 
-        {/* Hero visual / Polaroid collage */}
-        <div className="hero-visual">
-          <div className="polaroid-main-card">
-            <div className="polaroid-tape"></div>
-            <div className="polaroid-image-wrapper">
-              <img 
-                src={coupleData.heroCoverImage} 
-                alt="Foto della coppia ai 25 anni di matrimonio" 
-                className="polaroid-img"
-              />
-              <span className="polaroid-seal">🏅 25 ANNI</span>
+        {/* Corpo Principale dell'Introduzione dell'Articolo */}
+        <div className="wikihow-intro-layout">
+          <div className="wikihow-intro-text-column">
+            <p className="intro-lead-paragraph">
+              Sopravvivere a un quarto di secolo insieme è considerata una delle imprese umane più complesse, 
+              specialmente quando la coppia è composta da un <strong>commercialista stakanovista</strong> (lavoratore H24 con pausa il weekend... forse!) 
+              e da una <strong>professoressa di matematica</strong> che combatte quotidianamente con il disordine di due figli (Simone e Andrea).
+            </p>
+
+            <p className="intro-secondary-paragraph">
+              In questo manuale illustrato passo-passo scoprirai tutti i metodi collaudati per disinnescare la guerra fredda sui trapani casalinghi, 
+              sopravvivere alla spedizione punitiva della spesa del sabato e mantenere vivo l'amore per oltre 9.100 giorni.
+            </p>
+
+            {/* Box Cose che ti serviranno (Things You'll Need) */}
+            <div className="wikihow-things-needed-card">
+              <h3 className="things-needed-title">
+                📋 Cose che ti Serviranno per Completare Questo Metodo:
+              </h3>
+              <ul className="things-needed-list">
+                <li>
+                  <strong>18.250+ Caffè caldi:</strong> indispensabili per iniziare a parlare al mattino.
+                </li>
+                <li>
+                  <strong>1 Calcolatrice / F24:</strong> per gestire le scadenze fiscali di Antonio a qualsiasi ora.
+                </li>
+                <li>
+                  <strong>1 Lavagna con gessetti:</strong> per le lezioni pomeridiane no-stop di Katia.
+                </li>
+                <li>
+                  <strong>2 Divani rinforzati:</strong> su cui far accomodare Simone e Andrea mentre la mamma pulisce.
+                </li>
+                <li>
+                  <strong>4 Carrelli capienti:</strong> per la spedizione titanica del sabato al supermercato.
+                </li>
+                <li>
+                  <strong>Pazienza infinita e tantissimo amore:</strong> la formula matematica segreta per arrivare all'Oro!
+                </li>
+              </ul>
             </div>
-            <div className="polaroid-caption">
-              <p className="polaroid-text handwritten">
-                «Ancora noi, 25 anni dopo... e con la stessa voglia di ridere!»
-              </p>
-              <span className="polaroid-date">Nozze d'Argento • 2001 - 2026</span>
+
+            <div className="intro-action-row">
+              <button 
+                type="button" 
+                className="btn-wiki btn-wiki-primary"
+                onClick={triggerConfetti}
+              >
+                <Wine size={18} />
+                <span>Stappa lo Spumante delle Nozze d'Argento! 🍾</span>
+              </button>
+              <a href="#temi" className="btn-wiki btn-wiki-secondary">
+                <span>Vai ai 5 Metodi Illustrati ⬇️</span>
+              </a>
             </div>
           </div>
 
-          {/* Floating funny sticker badge */}
-          <div className="hero-floating-sticker">
-            <Heart size={20} className="text-rose fill-rose" />
-            <div>
-              <strong>Resistenza record:</strong>
-              <p>Collaudati e garantiti a vita!</p>
+          {/* Illustrazione Ufficiale di Copertina wikiHow */}
+          <div className="wikihow-intro-visual-column">
+            <div className="wikihow-illustration-frame">
+              <img 
+                src={coupleData.heroCoverImage} 
+                alt="Antonio e Katia per il manuale wikiHow" 
+                className="wikihow-illustration-img"
+              />
+              <div className="wikihow-caption-bar">
+                <span className="caption-fig-number">Figura 1</span>
+                <p className="caption-text handwritten">
+                  «Antonio e Katia fotografati dopo 25 anni: sorridenti, complici e con zero omicidi commessi!»
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Play, BookOpen, Home, BarChart2, 
-  HelpCircle, Wine, MessageSquare, ChevronRight
+  HelpCircle, Wine, MessageSquare, CheckSquare, Film
 } from 'lucide-react';
 
-// Nomi brevi e compatti per il menù laterale
 const shortTitles = {
-  commercialista: "Antonio Commercialista H24",
-  matematica_faidate: "Katia Matematica vs Fai-da-te",
-  casa_figli: "Casa & Figli (Simone e Andrea)",
-  spesa_sabato: "La Spesa del Sabato",
-  ierieoggi: "26 Settembre vs Oggi (25 Anni)"
+  commercialista: "1. Il Commercialista H24",
+  matematica_faidate: "2. Matematica vs Fai-da-te",
+  casa_figli: "3. La Casa & i Figli",
+  spesa_sabato: "4. La Spesa del Sabato",
+  ierieoggi: "5. 26 Settembre vs Oggi"
 };
 
-export default function SidebarNav({ sections = [], onStartSlideshow }) {
+export default function SidebarNav({ sections = [], onLaunchVideo }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('top');
 
@@ -54,11 +53,11 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
     }
   };
 
-  const handleQuickSlideshow = (sec, e) => {
+  const handlePlayVideo = (sec, shortTitle, e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (onStartSlideshow) {
-      onStartSlideshow(sec, 0);
+    if (onLaunchVideo) {
+      onLaunchVideo(sec.id, shortTitle);
     }
     if (window.innerWidth < 1024) {
       setIsOpen(false);
@@ -67,20 +66,20 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
 
   return (
     <>
-      {/* Pulsante Fluttuante Compatto sul bordo sinistro */}
+      {/* Linguetta Fluttuante Verde Stile wikiHow */}
       <button
         type="button"
-        className={`sidebar-compact-toggle ${isOpen ? 'is-open' : ''}`}
+        className={`wikihow-sidebar-toggle ${isOpen ? 'is-open' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
-        title={isOpen ? "Chiudi menù" : "Indice veloce dei capitoli"}
-        aria-label="Menù laterale"
+        title={isOpen ? "Chiudi Indice" : "Indice dei Contenuti wikiHow"}
+        aria-label="Indice dei Contenuti"
       >
         {isOpen ? (
-          <X size={18} />
+          <X size={17} />
         ) : (
           <>
-            <BookOpen size={16} className="text-amber" />
-            <span className="compact-toggle-label">Indice</span>
+            <BookOpen size={15} />
+            <span className="toggle-label-text">Indice Articolo</span>
           </>
         )}
       </button>
@@ -93,16 +92,19 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
         />
       )}
 
-      {/* Menù Laterale Compatto (Drawer snello da 265px) */}
-      <aside className={`sidebar-compact-drawer ${isOpen ? 'drawer-open' : ''}`}>
-        <div className="compact-sidebar-header">
-          <div className="compact-brand">
-            <span className="compact-ring">💍</span>
-            <span className="compact-brand-title">KaBlog 25</span>
+      {/* Menù Laterale Indice Contenuti wikiHow */}
+      <aside className={`wikihow-sidebar-drawer ${isOpen ? 'drawer-open' : ''}`}>
+        <div className="wiki-sidebar-header">
+          <div className="wiki-sidebar-brand">
+            <span className="wiki-toc-icon">📑</span>
+            <div>
+              <h3 className="wiki-toc-title">Indice dei Contenuti</h3>
+              <span className="wiki-toc-sub">Guida 25 Anni Insieme</span>
+            </div>
           </div>
           <button 
             type="button" 
-            className="compact-close-btn"
+            className="wiki-sidebar-close-btn"
             onClick={() => setIsOpen(false)}
             aria-label="Chiudi"
           >
@@ -110,39 +112,39 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
           </button>
         </div>
 
-        <div className="compact-sidebar-body">
-          {/* Panoramica */}
-          <div className="compact-group">
-            <span className="compact-group-label">Panoramica</span>
-            <ul className="compact-list">
+        <div className="wiki-sidebar-body">
+          {/* Sezione Panoramica */}
+          <div className="wiki-sidebar-group">
+            <span className="wiki-sidebar-label">Introduzione</span>
+            <ul className="wiki-sidebar-list">
               <li>
                 <a 
                   href="#top" 
-                  className={`compact-link ${activeSection === 'top' ? 'active' : ''}`}
+                  className={`wiki-sidebar-link ${activeSection === 'top' ? 'active' : ''}`}
                   onClick={(e) => scrollToId('top', e)}
                 >
-                  <Home size={15} />
-                  <span>Inizio & Copertina</span>
+                  <Home size={14} />
+                  <span>Inizio & Cose che Servono</span>
                 </a>
               </li>
               <li>
                 <a 
                   href="#statistiche" 
-                  className={`compact-link ${activeSection === 'statistiche' ? 'active' : ''}`}
+                  className={`wiki-sidebar-link ${activeSection === 'statistiche' ? 'active' : ''}`}
                   onClick={(e) => scrollToId('statistiche', e)}
                 >
-                  <BarChart2 size={15} />
-                  <span>Statistiche 25 Anni</span>
+                  <BarChart2 size={14} />
+                  <span>Dati & Statistiche Certificate</span>
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* I 5 Capitoli Tematici */}
-          <div className="compact-group">
-            <span className="compact-group-label">I 5 Capitoli</span>
-            <ul className="compact-list">
-              {sections.map((sec, idx) => {
+          {/* I 5 Metodi della Guida */}
+          <div className="wiki-sidebar-group">
+            <span className="wiki-sidebar-label">I 5 Metodi Illustrati</span>
+            <ul className="wiki-sidebar-list">
+              {sections.map((sec) => {
                 const secId = `section-${sec.id}`;
                 const isActive = activeSection === secId;
                 const shortTitle = shortTitles[sec.id] || sec.title;
@@ -150,24 +152,21 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
                 return (
                   <li key={sec.id}>
                     <div 
-                      className={`compact-chapter-row ${isActive ? 'active' : ''}`}
+                      className={`wiki-method-nav-row ${isActive ? 'active' : ''}`}
                       onClick={(e) => scrollToId(secId, e)}
                     >
-                      <div className="compact-chapter-info">
-                        <span className="compact-idx">#{idx + 1}</span>
-                        <span className="compact-chapter-name" title={sec.title}>
-                          {shortTitle}
-                        </span>
-                      </div>
+                      <span className="wiki-method-nav-title" title={sec.title}>
+                        {shortTitle}
+                      </span>
 
-                      {/* Tasto Play compatto per lo Slideshow */}
+                      {/* Bottone Tondo Verde Play che avvia VLC */}
                       <button
                         type="button"
-                        className="compact-play-btn"
-                        onClick={(e) => handleQuickSlideshow(sec, e)}
-                        title={`Avvia Slideshow: ${shortTitle}`}
+                        className="btn-wiki-nav-play"
+                        onClick={(e) => handlePlayVideo(sec, shortTitle, e)}
+                        title={`Avvia il Video di ${shortTitle} in VLC`}
                       >
-                        <Play size={11} className="fill-current" />
+                        <Play size={10} className="fill-current" />
                       </button>
                     </div>
                   </li>
@@ -176,46 +175,46 @@ export default function SidebarNav({ sections = [], onStartSlideshow }) {
             </ul>
           </div>
 
-          {/* Per la Festa */}
-          <div className="compact-group">
-            <span className="compact-group-label">Per la Festa</span>
-            <ul className="compact-list">
+          {/* Sezioni di Chiusura */}
+          <div className="wiki-sidebar-group">
+            <span className="wiki-sidebar-label">Community & Festa</span>
+            <ul className="wiki-sidebar-list">
               <li>
                 <a 
                   href="#quiz" 
-                  className={`compact-link ${activeSection === 'quiz' ? 'active' : ''}`}
+                  className={`wiki-sidebar-link ${activeSection === 'quiz' ? 'active' : ''}`}
                   onClick={(e) => scrollToId('quiz', e)}
                 >
-                  <HelpCircle size={15} />
-                  <span>Quiz della Coppia</span>
+                  <HelpCircle size={14} />
+                  <span>Domande della Community (Quiz)</span>
                 </a>
               </li>
               <li>
                 <a 
                   href="#brindisi" 
-                  className={`compact-link ${activeSection === 'brindisi' ? 'active' : ''}`}
+                  className={`wiki-sidebar-link ${activeSection === 'brindisi' ? 'active' : ''}`}
                   onClick={(e) => scrollToId('brindisi', e)}
                 >
-                  <Wine size={15} />
-                  <span>Generatore Brindisi</span>
+                  <Wine size={14} />
+                  <span>Frasi Consigliate per il Discorso</span>
                 </a>
               </li>
               <li>
                 <a 
                   href="#guestbook" 
-                  className={`compact-link ${activeSection === 'guestbook' ? 'active' : ''}`}
+                  className={`wiki-sidebar-link ${activeSection === 'guestbook' ? 'active' : ''}`}
                   onClick={(e) => scrollToId('guestbook', e)}
                 >
-                  <MessageSquare size={15} />
-                  <span>Muro dei Consigli</span>
+                  <MessageSquare size={14} />
+                  <span>Recensioni dei Lettori</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="compact-sidebar-footer">
-          <span>💍 Antonio & Katia (2001 - 2026)</span>
+        <div className="wiki-sidebar-footer">
+          <span>✓ wikiHow Verified Marriage Guide</span>
         </div>
       </aside>
     </>

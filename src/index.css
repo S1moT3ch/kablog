@@ -1,32 +1,47 @@
 :root {
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-title: 'Merriweather', Georgia, serif;
+  --font-ui: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-hand: 'Caveat', cursive, sans-serif;
 
-  /* Palette Festosa Nozze d'Argento & Champagne */
-  --bg-main: #fbfbf9;
-  --bg-gradient: radial-gradient(circle at 10% 20%, rgba(254, 243, 199, 0.45) 0%, rgba(243, 244, 246, 0.6) 40%, rgba(253, 230, 242, 0.4) 90%);
-  --surface-card: rgba(255, 255, 255, 0.88);
-  --surface-card-hover: rgba(255, 255, 255, 0.98);
-  --surface-border: rgba(226, 232, 240, 0.8);
+  /* Palette Ufficiale wikiHow */
+  --wikihow-green: #609345;
+  --wikihow-green-dark: #436b2d;
+  --wikihow-green-deep: #3b5f27;
+  --wikihow-green-light: #73aa55;
+  --wikihow-green-pale: #f2f7ee;
+  --wikihow-green-subtle: #e8f2e2;
+  --wikihow-header-bg: #4a7732;
   
-  --color-primary: #d97706; /* Warm Amber / Gold */
-  --color-primary-hover: #b45309;
-  --color-silver: #94a3b8;
-  --color-silver-dark: #475569;
-  --color-rose: #e11d48;
-  --color-text-main: #0f172a;
-  --color-text-muted: #64748b;
-  --color-accent: #2563eb;
+  --wikihow-bg: #f7f7f5;
+  --wikihow-card: #ffffff;
+  --wikihow-border: #e2e4dd;
+  --wikihow-border-strong: #c8cbd0;
 
-  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.12);
-  --shadow-polaroid: 0 12px 28px rgba(30, 41, 59, 0.14);
+  --wikihow-text: #222222;
+  --wikihow-text-secondary: #555555;
+  --wikihow-text-muted: #777777;
 
+  --wikihow-tip-bg: #edf6e8;
+  --wikihow-tip-border: #8ab76f;
+  --wikihow-tip-text: #2c591a;
+
+  --wikihow-warn-bg: #fef8ee;
+  --wikihow-warn-border: #f2ab38;
+  --wikihow-warn-text: #8c5208;
+
+  --wikihow-alert-bg: #fdf2f2;
+  --wikihow-alert-border: #e66755;
+  --wikihow-alert-text: #96281b;
+
+  --shadow-wiki: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-wiki-md: 0 4px 14px rgba(0, 0, 0, 0.1);
+  --shadow-wiki-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+
+  --radius-xs: 4px;
   --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
 }
 
@@ -42,186 +57,251 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: var(--color-text-main);
-  background: var(--bg-main);
-  background-image: var(--bg-gradient);
-  background-attachment: fixed;
+  color: var(--wikihow-text);
+  background-color: var(--wikihow-bg);
+  background-image: 
+    radial-gradient(#e4e7de 1px, transparent 1px),
+    radial-gradient(#e4e7de 1px, var(--wikihow-bg) 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
   min-height: 100vh;
   line-height: 1.6;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, .font-display {
-  font-family: var(--font-display);
+h1, h2, h3, h4 {
+  color: var(--wikihow-text);
   font-weight: 700;
-  color: var(--color-text-main);
+  line-height: 1.25;
+}
+
+.article-main-title {
+  font-family: var(--font-title);
+  font-size: 2.35rem;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: -0.3px;
 }
 
 .handwritten {
   font-family: var(--font-hand);
   font-size: 1.35rem;
-  letter-spacing: 0.5px;
+  line-height: 1.35;
 }
 
-/* Scrollbar Moderna e Pulita per Registrazione Schermo */
+/* Scrollbar stile wikiHow */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(241, 245, 249, 0.6);
+  background: #f1f2ed;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(203, 213, 225, 0.8);
+  background: #bcc3b5;
   border-radius: 9999px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  border: 2px solid #f1f2ed;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.9);
+  background: var(--wikihow-green);
 }
 
-/* Base Container */
-.container {
-  max-width: 1200px;
+/* Layout Centrato Stile Articolo wikiHow */
+.wikihow-container {
+  max-width: 1060px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.25rem;
 }
 
-/* Glassmorphism Card */
-.glass-card {
-  background: var(--surface-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.wikihow-article-card {
+  background: var(--wikihow-card);
+  border: 1px solid var(--wikihow-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-wiki);
+  margin-bottom: 2rem;
+  overflow: hidden;
 }
 
-.glass-card:hover {
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(217, 119, 6, 0.3);
+/* Badge & Tag wikiHow */
+.wiki-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+  background: var(--wikihow-green-pale);
+  color: var(--wikihow-green-dark);
+  border: 1px solid rgba(96, 147, 69, 0.3);
 }
 
-/* Pulsanti Spiritosi & Azioni */
-.btn {
+.wiki-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #edf7e8;
+  color: #245014;
+  border: 1.5px solid #a2ce8a;
+  border-radius: var(--radius-full);
+  padding: 0.26rem 0.75rem 0.26rem 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(46, 92, 27, 0.08);
+}
+
+.wiki-verified-tick-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #4a7732;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.wiki-verified-tick-circle svg {
+  display: block;
+}
+
+.wiki-verified-text {
+  font-weight: 700;
+  color: #245014;
+  letter-spacing: 0.1px;
+}
+
+/* Pulsanti wikiHow */
+.btn-wiki {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.75rem 1.4rem;
-  border-radius: var(--radius-full);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.65rem 1.3rem;
+  border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   text-decoration: none;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+.btn-wiki-primary {
+  background: var(--wikihow-green);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  border-bottom: 3px solid var(--wikihow-green-deep);
+  box-shadow: 0 2px 6px rgba(67, 107, 45, 0.25);
 }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(217, 119, 6, 0.45);
-  background: linear-gradient(135deg, #fbbf24 0%, #b45309 100%);
+.btn-wiki-primary:hover {
+  background: var(--wikihow-green-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(67, 107, 45, 0.35);
 }
 
-.btn-primary:active {
+.btn-wiki-primary:active {
   transform: translateY(1px);
+  border-bottom-width: 1px;
 }
 
-.btn-secondary {
+.btn-wiki-secondary {
   background: #ffffff;
-  color: var(--color-text-main);
-  border: 1px solid var(--surface-border);
-  box-shadow: var(--shadow-sm);
+  color: var(--wikihow-text);
+  border: 1px solid var(--wikihow-border-strong);
+  border-bottom: 2px solid #b8bac0;
 }
 
-.btn-secondary:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  transform: translateY(-2px);
+.btn-wiki-secondary:hover {
+  background: #f7f7f5;
+  border-color: #9ca3af;
 }
 
-.btn-rose {
-  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+.btn-wiki-action {
+  background: #f0f7ec;
+  color: var(--wikihow-green-dark);
+  border: 1.5px solid var(--wikihow-green);
+}
+
+.btn-wiki-action:hover {
+  background: var(--wikihow-green);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
 }
 
-.btn-rose:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.45);
+/* Box Istituzionali wikiHow: Consigli, Avvertenze, Cose che servono */
+.wikihow-callout {
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--radius-sm);
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
 }
 
-/* Badge Stile Divertente */
-.badge-tag {
-  display: inline-flex;
+.wikihow-callout-tip {
+  background: var(--wikihow-tip-bg);
+  border-left: 5px solid var(--wikihow-tip-border);
+  color: var(--wikihow-tip-text);
+}
+
+.wikihow-callout-warn {
+  background: var(--wikihow-warn-bg);
+  border-left: 5px solid var(--wikihow-warn-border);
+  color: var(--wikihow-warn-text);
+}
+
+.wikihow-callout-alert {
+  background: var(--wikihow-alert-bg);
+  border-left: 5px solid var(--wikihow-alert-border);
+  color: var(--wikihow-alert-text);
+}
+
+.callout-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.callout-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.callout-content {
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* Numeri dei passaggi (wikiHow Steps) */
+.step-number-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--wikihow-green);
+  color: #ffffff;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
-  background: rgba(245, 158, 11, 0.12);
-  color: #b45309;
-  border: 1px solid rgba(245, 158, 11, 0.25);
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(67, 107, 45, 0.3);
 }
 
-.badge-silver {
-  background: rgba(148, 163, 184, 0.16);
-  color: #334155;
-  border: 1px solid rgba(148, 163, 184, 0.3);
+/* Animazioni leggere */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Sezioni Spacing */
-.section {
-  padding: 5rem 0;
-  position: relative;
-}
-
-.section-header {
-  text-align: center;
-  max-width: 780px;
-  margin: 0 auto 3rem auto;
-}
-
-.section-header h2 {
-  font-size: 2.25rem;
-  margin-bottom: 0.6rem;
-  line-height: 1.25;
-}
-
-.section-header p.subtitle {
-  font-size: 1.15rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-/* Animazioni sottili */
-@keyframes floatUp {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: floatUp 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.04); }
-}
-
-.animate-glow {
-  animation: pulseGlow 3s infinite ease-in-out;
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
 }

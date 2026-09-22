@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { MessageSquarePlus, Send, Pin, Sparkles, Heart } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, MessageSquarePlus, Send, CheckCircle2, Star, ShieldCheck } from 'lucide-react';
 
-const STICKER_TAGS = [
-  "❤️ Tanto Amore",
-  "🍷 Più Vino!",
-  "🧯 Estintore da Cucina",
-  "🏝️ Fuga ai Caraibi",
-  "🧘 Pazienza Zen",
-  "🛋️ Divano & Serie TV"
+const CATEGORY_TAGS = [
+  "Consiglio Verificato",
+  "Pazienza Familiare",
+  "Fisco & Lavoro",
+  "Matematica & Studio",
+  "Spesa del Sabato",
+  "Aiuto Domestico"
 ];
 
 export default function Guestbook({ initialEntries }) {
@@ -25,8 +25,9 @@ export default function Guestbook({ initialEntries }) {
   const [author, setAuthor] = useState('');
   const [relation, setRelation] = useState('');
   const [message, setMessage] = useState('');
-  const [selectedTag, setSelectedTag] = useState(STICKER_TAGS[0]);
+  const [selectedTag, setSelectedTag] = useState(CATEGORY_TAGS[0]);
   const [submitted, setSubmitted] = useState(false);
+  const [helpfulVoted, setHelpfulVoted] = useState(null);
 
   useEffect(() => {
     try {
@@ -43,10 +44,10 @@ export default function Guestbook({ initialEntries }) {
     const newEntry = {
       id: Date.now(),
       author: author.trim(),
-      relation: relation.trim() || "Ospite d'onore",
+      relation: relation.trim() || "Lettore Verificato di wikiHow",
       message: message.trim(),
       tag: selectedTag,
-      date: "Proprio adesso!",
+      date: "Proprio adesso",
     };
 
     setEntries([newEntry, ...entries]);
@@ -57,67 +58,104 @@ export default function Guestbook({ initialEntries }) {
 
     confetti({
       particleCount: 50,
-      spread: 70,
-      origin: { y: 0.6 }
+      spread: 60,
+      origin: { y: 0.7 },
+      colors: ['#609345', '#93b874', '#ffffff']
     });
 
     setTimeout(() => setSubmitted(false), 3000);
   };
 
   return (
-    <section id="guestbook" className="section guestbook-section">
-      <div className="container">
-        <div className="section-header">
-          <div className="badge-tag">
-            <MessageSquarePlus size={15} />
-            <span>Spazio Aperto a Tutti</span>
+    <section id="guestbook" className="wikihow-guestbook-section">
+      <div className="wikihow-container">
+        {/* Box Valutazione wikiHow: È stato utile questo articolo? */}
+        <div className="wikihow-helpful-survey-card">
+          <div className="survey-text-side">
+            <h3 className="survey-question">Questo articolo è stato utile?</h3>
+            <p className="survey-desc">
+              Aiuta lo Staff di wikiHow a valutare la resistenza di Antonio & Katia dopo 25 anni di matrimonio.
+            </p>
           </div>
-          <h2>Il Muro dei Consigli per i Prossimi 25 Anni 📌</h2>
-          <p className="subtitle">
-            Lascia un augurio sincero, un aneddoto imbarazzante o un consiglio non richiesto per aiutarli ad arrivare alle Nozze d'Oro!
+          <div className="survey-buttons-side">
+            <button 
+              type="button" 
+              className={`survey-btn ${helpfulVoted === 'yes' ? 'voted-yes' : ''}`}
+              onClick={() => {
+                setHelpfulVoted('yes');
+                confetti({ particleCount: 30, spread: 40 });
+              }}
+            >
+              <ThumbsUp size={18} />
+              <span>Sì (100%)</span>
+            </button>
+            <button 
+              type="button" 
+              className={`survey-btn ${helpfulVoted === 'no' ? 'voted-no' : ''}`}
+              onClick={() => setHelpfulVoted('no')}
+              title="Opzione non consentita per festeggiare le nozze d'argento!"
+            >
+              <ThumbsDown size={18} />
+              <span>No</span>
+            </button>
+          </div>
+        </div>
+
+        {helpfulVoted === 'no' && (
+          <div className="survey-error-alert animate-fade-in">
+            ⚠️ Errore di sistema: Il voto "No" è stato annullato d'ufficio dal Commercialista e dalla Prof di Matematica! 🎉
+          </div>
+        )}
+
+        <div className="wikihow-section-heading">
+          <span className="wiki-badge">
+            <MessageSquarePlus size={14} /> Recensioni della Community
+          </span>
+          <h2>Consigli e Recensioni dei Lettori</h2>
+          <p className="wikihow-section-desc">
+            Lascia il tuo consiglio da lettore esperto per aiutare Antonio & Katia nei prossimi 25 anni verso le Nozze d'Oro:
           </p>
         </div>
 
-        <div className="guestbook-layout">
-          {/* Form per scrivere */}
-          <div className="guestbook-form-card glass-card">
-            <h3 className="form-title">
-              <Pin size={20} className="text-amber" />
-              Attacca il tuo Post-it
+        <div className="guestbook-two-columns">
+          {/* Form Inserimento Consiglio stile wikiHow */}
+          <div className="guestbook-form-card">
+            <h3 className="form-card-title">
+              ✍️ Scrivi un Consiglio per i Lettori
             </h3>
 
-            <form onSubmit={handleSubmit} className="guestbook-form">
-              <div className="form-group">
-                <label htmlFor="author-input">Il tuo Nome / Soprannome *</label>
+            <form onSubmit={handleSubmit} className="wikihow-feedback-form">
+              <div className="form-field">
+                <label htmlFor="wiki-author-input">Il tuo Nome / Ruolo *</label>
                 <input 
-                  id="author-input"
+                  id="wiki-author-input"
                   type="text" 
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
-                  placeholder="Es. Zia Maria, Gli amici del calcetto..." 
+                  placeholder="Es. Zio Mario, Collega dello Studio, Studente..." 
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="relation-input">Chi sei per la coppia?</label>
+              <div className="form-field">
+                <label htmlFor="wiki-relation-input">Chi sei per la coppia?</label>
                 <input 
-                  id="relation-input"
+                  id="wiki-relation-input"
                   type="text" 
                   value={relation}
                   onChange={(e) => setRelation(e.target.value)}
-                  placeholder="Es. Cugino, Testimone, Amico complice..." 
+                  placeholder="Es. Figlio latitante, Amico storico, Cliente..." 
                 />
               </div>
 
-              <div className="form-group">
-                <label>Scegli lo Sticker del messaggio</label>
-                <div className="sticker-selector">
-                  {STICKER_TAGS.map((tag) => (
+              <div className="form-field">
+                <label>Categoria del Consiglio</label>
+                <div className="tags-pill-selector">
+                  {CATEGORY_TAGS.map((tag) => (
                     <button
                       key={tag}
                       type="button"
-                      className={`sticker-choice-btn ${selectedTag === tag ? 'active' : ''}`}
+                      className={`tag-choice-pill ${selectedTag === tag ? 'active' : ''}`}
                       onClick={() => setSelectedTag(tag)}
                     >
                       {tag}
@@ -126,50 +164,55 @@ export default function Guestbook({ initialEntries }) {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="message-input">Il tuo Augurio o Consiglio *</label>
+              <div className="form-field">
+                <label htmlFor="wiki-message-input">Il tuo Consiglio o Recensione *</label>
                 <textarea 
-                  id="message-input"
+                  id="wiki-message-input"
                   rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Scrivi una battuta, un ricordo o il segreto per sopravvivere ad altri 25 anni..."
+                  placeholder="Scrivi un augurio, un consiglio o un aneddoto per i prossimi 25 anni..."
                   required
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary btn-block">
-                <Send size={18} />
-                <span>Affiggi sul Muro! 🎈</span>
+              <button type="submit" className="btn-wiki btn-wiki-primary btn-submit-tip">
+                <Send size={16} />
+                <span>Pubblica il Consiglio sul Manuale</span>
               </button>
 
               {submitted && (
-                <div className="form-success-banner animate-float">
-                  ✨ Messaggio affisso con successo! Grazie per l'augurio!
+                <div className="form-published-alert animate-fade-in">
+                  ✓ Consiglio approvato e pubblicato con successo nella guida wikiHow!
                 </div>
               )}
             </form>
           </div>
 
-          {/* Bacheca dei post-it */}
-          <div className="guestbook-wall">
-            <div className="sticky-notes-grid">
-              {entries.map((item, idx) => (
-                <div 
-                  key={item.id} 
-                  className={`sticky-note note-color-${(idx % 4) + 1} note-tilt-${(idx % 3) + 1}`}
-                >
-                  <div className="sticky-pin">📍</div>
-                  <div className="sticky-tag">{item.tag}</div>
-                  <p className="sticky-message handwritten">
-                    "{item.message}"
-                  </p>
-                  <div className="sticky-footer">
-                    <div>
-                      <strong className="sticky-author">{item.author}</strong>
-                      <span className="sticky-relation">{item.relation}</span>
+          {/* Lista Recensioni & Consigli wikiHow */}
+          <div className="guestbook-reviews-column">
+            <div className="reviews-list">
+              {entries.map((item) => (
+                <div key={item.id} className="wikihow-review-card">
+                  <div className="review-top-meta">
+                    <div className="reviewer-info">
+                      <strong className="reviewer-name">{item.author}</strong>
+                      <span className="reviewer-role">({item.relation})</span>
                     </div>
-                    <span className="sticky-date">{item.date}</span>
+                    <span className="review-verified-pill">
+                      <ShieldCheck size={13} className="text-green" /> Verificato
+                    </span>
+                  </div>
+
+                  <span className="review-tag-badge">{item.tag}</span>
+
+                  <p className="review-text-body handwritten">
+                    «{item.message}»
+                  </p>
+
+                  <div className="review-bottom-footer">
+                    <span className="review-date-label">{item.date}</span>
+                    <span className="review-vote-note">👍 Consigliato da questo lettore</span>
                   </div>
                 </div>
               ))}

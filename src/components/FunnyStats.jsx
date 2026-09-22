@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Coffee, Wrench, Award, Utensils, Luggage, Heart, Smile } from 'lucide-react';
+import { Award, Coffee, Wrench, Heart, Luggage, Utensils, CheckCircle2, BarChart2 } from 'lucide-react';
 
 const iconMap = {
+  Award: Award,
   Coffee: Coffee,
   Wrench: Wrench,
-  Award: Award,
-  Utensils: Utensils,
-  Luggage: Luggage,
   Heart: Heart,
+  Luggage: Luggage,
+  Utensils: Utensils,
 };
 
 export default function FunnyStats({ stats }) {
@@ -21,20 +21,19 @@ export default function FunnyStats({ stats }) {
   };
 
   return (
-    <section id="statistiche" className="section stats-section">
-      <div className="container">
-        <div className="section-header">
-          <div className="badge-tag">
-            <Smile size={15} />
-            <span>Numeri Ufficiali e Inconfutabili</span>
-          </div>
-          <h2>Le Statistiche di Sopravvivenza</h2>
-          <p className="subtitle">
-            Un'analisi rigorosamente non scientifica di cosa è servito per raggiungere il traguardo delle Nozze d'Argento.
+    <section id="statistiche" className="wikihow-stats-section">
+      <div className="wikihow-container">
+        <div className="wikihow-section-heading">
+          <span className="wiki-badge">
+            <BarChart2 size={14} /> Dati Sperimentali
+          </span>
+          <h2>Dati e Statistiche Certificate dal Metodo</h2>
+          <p className="wikihow-section-desc">
+            Riepilogo delle metriche ufficiali rilevate dallo staff durante i 25 anni di sperimentazione sul campo:
           </p>
         </div>
 
-        <div className="stats-grid">
+        <div className="wikihow-stats-grid">
           {stats.map((item) => {
             const IconComponent = iconMap[item.icon] || Heart;
             const extraLikes = reactions[item.id] || 0;
@@ -42,27 +41,27 @@ export default function FunnyStats({ stats }) {
             return (
               <div 
                 key={item.id} 
-                className="stat-card glass-card"
+                className="wikihow-stat-card"
                 onClick={() => handleStatClick(item.id)}
-                title="Clicca per confermare!"
+                title="Clicca per confermare il dato!"
               >
-                <div className="stat-card-top">
-                  <div className="stat-icon-wrapper">
-                    <IconComponent size={24} />
+                <div className="stat-card-topbar">
+                  <div className="stat-icon-box">
+                    <IconComponent size={20} />
                   </div>
-                  {extraLikes > 0 && (
-                    <span className="stat-reaction-badge animate-float">
-                      👍 +{extraLikes}
-                    </span>
-                  )}
+                  <span className="stat-cert-badge">
+                    <CheckCircle2 size={12} /> Certificato
+                  </span>
                 </div>
 
-                <div className="stat-value">{item.value}</div>
-                <h3 className="stat-label">{item.label}</h3>
-                <p className="stat-detail">{item.detail}</p>
+                <div className="stat-number">{item.value}</div>
+                <h3 className="stat-title">{item.label}</h3>
+                <p className="stat-explanation">{item.detail}</p>
 
-                <div className="stat-card-footer">
-                  <span className="stat-hint">Clicca per votare se ti ci ritrovi!</span>
+                <div className="stat-action-footer">
+                  <span className="stat-vote-pill">
+                    {extraLikes > 0 ? `👍 Approvato da te (+${extraLikes})` : "Clicca per confermare"}
+                  </span>
                 </div>
               </div>
             );

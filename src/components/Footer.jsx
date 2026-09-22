@@ -1,64 +1,76 @@
 import React from 'react';
 import confetti from 'canvas-confetti';
-import { Heart, ArrowUp, Sparkles, Image, Edit3 } from 'lucide-react';
+import { Heart, ArrowUp, Sparkles, BookOpen, ShieldCheck } from 'lucide-react';
 
-export default function Footer({ groomName, brideName }) {
+export default function Footer({ groomName, brideName, onBrindisi }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const triggerSilverBurst = () => {
-    confetti({
-      particleCount: 80,
-      spread: 100,
-      origin: { y: 0.9 },
-      colors: ['#cbd5e1', '#94a3b8', '#f59e0b', '#f43f5e', '#ffffff']
-    });
+  const triggerCelebration = () => {
+    if (onBrindisi) {
+      onBrindisi();
+    } else {
+      confetti({
+        particleCount: 90,
+        spread: 90,
+        origin: { y: 0.85 },
+        colors: ['#609345', '#93b874', '#f59e0b', '#ffffff']
+      });
+    }
   };
 
   return (
-    <footer className="site-footer">
-      <div className="container">
-        <div className="footer-top-box glass-card">
-          <div className="footer-guide-content">
-            <div className="guide-icon-box">
-              <Sparkles size={28} className="text-amber" />
+    <footer className="wikihow-footer">
+      <div className="wikihow-container">
+        {/* Box informativo personalizzazione foto */}
+        <div className="wikihow-footer-info-card">
+          <div className="footer-info-left">
+            <div className="footer-info-icon">
+              <BookOpen size={24} className="text-green" />
             </div>
             <div>
-              <h4>Pronti a personalizzarlo con le vostre foto reali? 📸</h4>
-              <p>
-                Tutti i nomi, i testi delle sezioni e le foto sono centralizzati nel file <code>src/data/blogData.js</code>. 
-                Puoi aggiungere le tue foto nella cartella <code>public/photos/</code> o inserire i file direttamente per rendere questo album davvero unico!
+              <h4 className="footer-info-title">
+                Pronto a inserire le vostre foto reali nel manuale? 📸
+              </h4>
+              <p className="footer-info-desc">
+                Tutte le foto, i testi dei passaggi e le statistiche si modificano facilmente nel file <code>src/data/blogData.js</code>. 
+                Puoi posizionare le tue foto in <code>public/photos/</code> per completare la guida ufficiale delle Nozze d'Argento!
               </p>
             </div>
           </div>
+
           <button 
             type="button" 
-            className="btn btn-rose"
-            onClick={triggerSilverBurst}
+            className="btn-wiki btn-wiki-primary"
+            onClick={triggerCelebration}
           >
-            <Heart size={18} />
-            <span>Viva gli Sposi! 🥂</span>
+            <Heart size={16} />
+            <span>Viva Antonio & Katia! 🥂</span>
           </button>
         </div>
 
-        <div className="footer-bottom-row">
-          <div className="footer-copyright">
-            <p>
-              💍 <strong>KaBlog</strong> • Festeggiando i 25 Anni di {groomName} & {brideName}
-            </p>
-            <p className="footer-subtext">
-              Realizzato con amore, risate e una buona scorta di pazienza per le Nozze d'Argento.
+        {/* Footer Link & Copyright wikiHow */}
+        <div className="wikihow-footer-bottom">
+          <div className="footer-brand-column">
+            <div className="wikihow-logo-mini">
+              <span className="logo-wiki">wiki</span>
+              <span className="logo-how">How</span>
+              <span className="logo-tagline">to Survive</span>
+            </div>
+            <p className="footer-disclaimer">
+              Guida non ufficiale per festeggiare 25 anni di matrimonio di {groomName} e {brideName}. 
+              Nessun commercialista o professoressa di matematica è stato maltrattato per la realizzazione di questo sito.
             </p>
           </div>
 
           <button 
             type="button" 
-            className="btn btn-secondary btn-back-to-top"
+            className="btn-wiki btn-wiki-secondary btn-back-top"
             onClick={scrollToTop}
-            title="Torna all'inizio"
+            title="Torna all'inizio dell'articolo"
           >
-            <ArrowUp size={18} />
+            <ArrowUp size={16} />
             <span>Torna su</span>
           </button>
         </div>

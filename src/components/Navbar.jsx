@@ -1,22 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
-import { Wine, Sparkles, Heart, Menu, X, ChevronDown, Film, Play, BookOpen } from 'lucide-react';
+import { Wine, Search, ChevronDown, Play, BookOpen, Menu, X, CheckCircle2 } from 'lucide-react';
 
-export default function Navbar({ groomName, brideName, sections = [], onStartSlideshow }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function Navbar({ groomName, brideName, sections = [], onLaunchVideo, onBrindisi }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFeedback, setSearchFeedback] = useState(false);
   const dropdownRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Chiudi il menù a tendina se si clicca fuori
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -28,141 +19,146 @@ export default function Navbar({ groomName, brideName, sections = [], onStartSli
   }, []);
 
   const triggerToastConfetti = () => {
-    confetti({
-      particleCount: 75,
-      spread: 70,
-      origin: { y: 0.2 },
-      colors: ['#f59e0b', '#d97706', '#94a3b8', '#f43f5e', '#ffffff']
-    });
-  };
-
-  const handleSelectSection = (sec, e) => {
-    e.preventDefault();
-    setDropdownOpen(false);
-    setMobileMenuOpen(false);
-
-    // Scorri fino alla sezione desiderata
-    const el = document.getElementById(`section-${sec.id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (onBrindisi) {
+      onBrindisi();
     } else {
-      const themesEl = document.getElementById('temi');
-      themesEl?.scrollIntoView({ behavior: 'smooth' });
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.2 }
+      });
     }
   };
 
-  const handleLaunchDirectSlideshow = (sec, e) => {
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setSearchFeedback(true);
+    setTimeout(() => setSearchFeedback(false), 2800);
+    // Scrolla alla prima sezione o ai capitoli
+    const el = document.getElementById('temi');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToSection = (secId, e) => {
+    e.preventDefault();
+    setDropdownOpen(false);
+    const el = document.getElementById(`section-${secId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleLaunchVideo = (sec, e) => {
     e.stopPropagation();
     e.preventDefault();
     setDropdownOpen(false);
-    setMobileMenuOpen(false);
-    if (onStartSlideshow) {
-      onStartSlideshow(sec, 0);
+    if (onLaunchVideo) {
+      onLaunchVideo(sec.id, sec.title);
     }
   };
 
   return (
-    <header className={`navbar-wrapper ${scrolled ? 'navbar-scrolled' : ''}`}>
-      <div className="container navbar-container">
-        <a href="#top" className="navbar-logo">
-          <div className="logo-ring-badge">
-            💍 <span>25</span>
-          </div>
-          <div className="logo-text">
-            <span className="logo-title">KaBlog</span>
-            <span className="logo-subtitle">{groomName} & {brideName}</span>
-          </div>
-        </a>
+    <header className="wikihow-header-wrapper">
+      {/* Barra Verde Superiore Ufficiale wikiHow */}
+      <div className="wikihow-topbar">
+        <div className="wikihow-container wikihow-topbar-inner">
+          {/* Logo wikiHow iconico */}
+          <a href="#top" className="wikihow-logo" title="wikiHow to Survive 25 Anni">
+            <span className="logo-wiki">wiki</span>
+            <span className="logo-how">How</span>
+            <span className="logo-tagline">to Survive</span>
+          </a>
 
-        <nav className={`navbar-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          {/* Menù a tendina per le Sezioni Tematiche */}
-          <div className="nav-dropdown-wrapper" ref={dropdownRef}>
-            <button
-              type="button"
-              className={`nav-dropdown-trigger ${dropdownOpen ? 'open' : ''}`}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              aria-expanded={dropdownOpen}
+          {/* Barra di Ricerca Spiritosa wikiHow */}
+          <form onSubmit={handleSearchSubmit} className="wikihow-search-box">
+            <Search size={16} className="search-icon" />
+            <input 
+              type="text" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cerca come gestire Simone e Andrea, o le scadenze F24..." 
+              className="wikihow-search-input"
+            />
+            <button type="submit" className="wikihow-search-btn">
+              Cerca
+            </button>
+            {searchFeedback && (
+              <span className="search-popup-tip animate-fade-in">
+                💡 Risultato: Nessun manuale al mondo può prepararti a questo! Scorri in basso!
+              </span>
+            )}
+          </form>
+
+          {/* Tasto Brindisi Ufficiale */}
+          <div className="wikihow-top-actions">
+            <button 
+              type="button" 
+              className="btn-wiki btn-wiki-toast"
+              onClick={triggerToastConfetti}
+              title="Stappa lo spumante e festeggia!"
             >
-              <BookOpen size={16} className="text-amber" />
-              <span>Sezioni & Slideshow</span>
-              <ChevronDown size={15} className={`chevron-icon ${dropdownOpen ? 'rotated' : ''}`} />
+              <Wine size={16} />
+              <span>Brindisi 🥂</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Sottobarra Breadcrumbs & Indice Metodi */}
+      <div className="wikihow-subbar">
+        <div className="wikihow-container wikihow-subbar-inner">
+          <nav className="wikihow-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#top">wikiHow</a>
+            <span className="breadcrumb-separator">»</span>
+            <a href="#statistiche">Famiglia & Relazioni</a>
+            <span className="breadcrumb-separator">»</span>
+            <a href="#temi">Matrimonio</a>
+            <span className="breadcrumb-separator">»</span>
+            <span className="breadcrumb-current">25 Anni: {groomName} & {brideName}</span>
+          </nav>
+
+          {/* Menù a Tendina Metodi della Guida */}
+          <div className="wikihow-methods-dropdown" ref={dropdownRef}>
+            <button 
+              type="button" 
+              className={`methods-dropdown-btn ${dropdownOpen ? 'active' : ''}`}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <BookOpen size={14} className="text-green" />
+              <span>Indice dei 5 Metodi</span>
+              <ChevronDown size={14} className={`dropdown-chevron ${dropdownOpen ? 'open' : ''}`} />
             </button>
 
             {dropdownOpen && (
-              <div className="nav-dropdown-menu glass-card animate-fade-in">
-                <div className="dropdown-menu-header">
-                  <span className="dropdown-menu-label">Scegli un Capitolo da Esplorare:</span>
+              <div className="methods-dropdown-menu animate-fade-in">
+                <div className="methods-menu-header">
+                  <strong>I 5 Metodi Ufficiali di Sopravvivenza:</strong>
                 </div>
-                <div className="dropdown-items-list">
-                  {sections.map((sec) => (
+                <div className="methods-list">
+                  {sections.map((sec, idx) => (
                     <div 
-                      key={sec.id}
-                      className="dropdown-item-row"
-                      onClick={(e) => handleSelectSection(sec, e)}
+                      key={sec.id} 
+                      className="methods-menu-item"
+                      onClick={(e) => scrollToSection(sec.id, e)}
                     >
-                      <div className="dropdown-item-info">
-                        <span className="dropdown-item-badge">{sec.badge}</span>
-                        <h4 className="dropdown-item-title">{sec.title}</h4>
-                        <span className="dropdown-item-sub">
-                          {sec.photos.length} foto con voiceover
-                        </span>
+                      <div className="methods-item-text">
+                        <span className="methods-step-num">Metodo {idx + 1}</span>
+                        <span className="methods-title">{sec.title.split(':')[0]}</span>
                       </div>
-
-                      {/* Tasto rapido per avviare subito lo slideshow */}
                       <button
                         type="button"
-                        className="btn-dropdown-play"
-                        onClick={(e) => handleLaunchDirectSlideshow(sec, e)}
-                        title="Avvia direttamente lo Slideshow a tutto schermo"
+                        className="btn-wiki-nav-play"
+                        onClick={(e) => handleLaunchVideo(sec, e)}
+                        title="Avvia il Video in VLC"
                       >
-                        <Play size={14} className="fill-current" />
-                        <span>Slideshow</span>
+                        <Play size={10} className="fill-current" />
                       </button>
                     </div>
                   ))}
                 </div>
-
-                <div className="dropdown-menu-footer">
-                  <a 
-                    href="#temi" 
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      setMobileMenuOpen(false);
-                    }}
-                    className="dropdown-all-link"
-                  >
-                    Vedi tutte le sezioni insieme 🌟
-                  </a>
-                </div>
               </div>
             )}
           </div>
-
-          <a href="#statistiche" onClick={() => setMobileMenuOpen(false)}>Statistiche</a>
-          <a href="#quiz" onClick={() => setMobileMenuOpen(false)}>Quiz della Coppia</a>
-          <a href="#brindisi" onClick={() => setMobileMenuOpen(false)}>Brindisi</a>
-          <a href="#guestbook" onClick={() => setMobileMenuOpen(false)}>Muro dei Consigli</a>
-        </nav>
-
-        <div className="navbar-actions">
-          <button 
-            type="button" 
-            className="btn btn-primary btn-toast-nav"
-            onClick={triggerToastConfetti}
-            title="Clicca per brindare con noi!"
-          >
-            <Wine size={18} />
-            <span>Fai un Brindisi! 🥂</span>
-          </button>
-
-          <button 
-            type="button" 
-            className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Apri menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </div>
     </header>

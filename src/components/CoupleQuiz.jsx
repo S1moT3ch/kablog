@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import { HelpCircle, CheckCircle2, XCircle, RotateCcw, Trophy, Award } from 'lucide-react';
+import { HelpCircle, CheckCircle2, XCircle, RotateCcw, Trophy, Award, MessageCircleQuestion } from 'lucide-react';
 
 export default function CoupleQuiz({ quizData }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,7 +11,7 @@ export default function CoupleQuiz({ quizData }) {
   const currentQ = quizData[currentIndex];
 
   const handleSelect = (option) => {
-    if (selectedOption !== null) return; // già risposto a questa domanda
+    if (selectedOption !== null) return;
     setSelectedOption(option);
     
     if (option === currentQ.correct) {
@@ -19,7 +19,8 @@ export default function CoupleQuiz({ quizData }) {
       confetti({
         particleCount: 40,
         spread: 60,
-        origin: { y: 0.7 }
+        origin: { y: 0.7 },
+        colors: ['#609345', '#93b874', '#ffffff']
       });
     }
   };
@@ -33,7 +34,8 @@ export default function CoupleQuiz({ quizData }) {
       confetti({
         particleCount: 100,
         spread: 80,
-        origin: { y: 0.5 }
+        origin: { y: 0.5 },
+        colors: ['#609345', '#93b874', '#f59e0b', '#ffffff']
       });
     }
   };
@@ -46,49 +48,54 @@ export default function CoupleQuiz({ quizData }) {
   };
 
   const getDiplomaTitle = () => {
-    if (score === quizData.length) return "🏆 Esperto Assoluto della Famiglia (Livello Divino)";
-    if (score >= quizData.length / 2) return "🥈 Amico Fidato (Conosce i trucchi del mestiere)";
-    return "🥉 Ospite Innocente (Ha ancora tanto da imparare)";
+    if (score === quizData.length) return "🏆 Editore Capo Onorario di wikiHow (Livello Divino)";
+    if (score >= quizData.length / 2) return "🥈 Collaboratore Verificato di wikiHow (Conosce i trucchi)";
+    return "🥉 Lettore Alle Prime Armi (Deve rileggere il manuale)";
   };
 
   return (
-    <section id="quiz" className="section quiz-section">
-      <div className="container">
-        <div className="section-header">
-          <div className="badge-tag">
-            <HelpCircle size={15} />
-            <span>Gioco Interattivo per gli Invitati</span>
-          </div>
-          <h2>Chi ha detto cosa? 🕵️‍♂️</h2>
-          <p className="subtitle">
-            Pensi di conoscere bene la coppia festeggiata? Mettiti alla prova con le frasi storiche pronunciate in questi 25 anni!
+    <section id="quiz" className="wikihow-qa-section">
+      <div className="wikihow-container">
+        <div className="wikihow-section-heading">
+          <span className="wiki-badge">
+            <MessageCircleQuestion size={14} /> Community Q&A
+          </span>
+          <h2>Domande e Risposte della Community di wikiHow</h2>
+          <p className="wikihow-section-desc">
+            I lettori pongono domande frequenti sulla vita con Antonio & Katia. Mettiti alla prova e indovina chi ha pronunciato queste celebri frasi!
           </p>
         </div>
 
-        <div className="quiz-card-wrapper">
+        <div className="wikihow-qa-card">
           {!isFinished ? (
-            <div className="quiz-box glass-card">
-              <div className="quiz-progress-bar">
+            <div className="qa-inner-box">
+              <div className="qa-progress-bar">
                 <div 
-                  className="quiz-progress-fill" 
+                  className="qa-progress-fill" 
                   style={{ width: `${((currentIndex + 1) / quizData.length) * 100}%` }}
-                ></div>
+                />
               </div>
 
-              <div className="quiz-header-meta">
-                <span className="quiz-step">Domanda {currentIndex + 1} di {quizData.length}</span>
-                <span className="quiz-score-pill">Punti: {score}</span>
+              <div className="qa-header-meta">
+                <span className="qa-step-badge">
+                  Domanda {currentIndex + 1} di {quizData.length}
+                </span>
+                <span className="qa-score-pill">
+                  Punteggio: {score} punti
+                </span>
               </div>
 
-              <div className="quiz-question-box">
-                <p className="quiz-quote handwritten">
-                  {currentQ.quote}
+              <div className="qa-question-box">
+                <span className="qa-question-label">Domanda del lettore:</span>
+                <p className="qa-quote handwritten">
+                  «{currentQ.quote}»
                 </p>
+                <span className="qa-sub-hint">Chi tra Antonio e Katia ha pronunciato questa frase?</span>
               </div>
 
-              <div className="quiz-options-list">
+              <div className="qa-options-list">
                 {currentQ.options.map((opt) => {
-                  let btnClass = "quiz-opt-btn";
+                  let btnClass = "qa-opt-btn";
                   if (selectedOption !== null) {
                     if (opt === currentQ.correct) {
                       btnClass += " correct";
@@ -109,10 +116,10 @@ export default function CoupleQuiz({ quizData }) {
                     >
                       <span>{opt}</span>
                       {selectedOption !== null && opt === currentQ.correct && (
-                        <CheckCircle2 size={20} className="status-icon" />
+                        <CheckCircle2 size={18} className="text-green" />
                       )}
                       {selectedOption !== null && opt === selectedOption && opt !== currentQ.correct && (
-                        <XCircle size={20} className="status-icon" />
+                        <XCircle size={18} className="text-red" />
                       )}
                     </button>
                   );
@@ -120,50 +127,54 @@ export default function CoupleQuiz({ quizData }) {
               </div>
 
               {selectedOption !== null && (
-                <div className="quiz-feedback-box animate-float">
-                  <p className="quiz-feedback-text">
-                    <strong>{selectedOption === currentQ.correct ? "🎯 Esatto!" : "😅 Ahia!"}</strong> {currentQ.funnyComment}
+                <div className="qa-editorial-answer animate-fade-in">
+                  <div className="qa-answer-header">
+                    <span className="qa-answer-tag">Risposta dell'Esperto wikiHow:</span>
+                    <strong>{selectedOption === currentQ.correct ? "🎯 Risposta Esatta!" : "😅 Errore!"}</strong>
+                  </div>
+                  <p className="qa-answer-text">
+                    {currentQ.funnyComment}
                   </p>
                   <button 
                     type="button" 
-                    className="btn btn-primary"
+                    className="btn-wiki btn-wiki-primary"
                     onClick={handleNext}
                   >
-                    {currentIndex + 1 < quizData.length ? "Prossima Domanda ➡️" : "Scopri il tuo Titolo 🏆"}
+                    {currentIndex + 1 < quizData.length ? "Prossima Domanda ➡️" : "Visualizza il tuo Titolo 🏆"}
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            <div className="quiz-result-box glass-card text-center">
-              <div className="quiz-trophy-icon">
-                <Trophy size={64} className="text-amber animate-glow" />
+            <div className="qa-result-box text-center">
+              <div className="qa-trophy-circle">
+                <Trophy size={48} className="text-green" />
               </div>
 
-              <h3>Quiz Completato!</h3>
-              <div className="quiz-final-score">
-                Hai indovinato <strong>{score}</strong> su <strong>{quizData.length}</strong> frasi!
-              </div>
+              <h3>Verifica della Community Completata!</h3>
+              <p className="qa-final-score-text">
+                Hai risposto correttamente a <strong>{score}</strong> su <strong>{quizData.length}</strong> domande della guida.
+              </p>
 
-              <div className="quiz-certificate">
-                <Award size={24} className="text-amber" />
+              <div className="qa-certificate-banner">
+                <Award size={26} className="text-green" />
                 <div>
-                  <span className="diploma-label">Titolo Ufficiale di Laurea:</span>
-                  <p className="diploma-title">{getDiplomaTitle()}</p>
+                  <span className="cert-subtitle">Attestato Ufficiale di Competenze wikiHow:</span>
+                  <h4 className="cert-title">{getDiplomaTitle()}</h4>
                 </div>
               </div>
 
-              <p className="quiz-closing-msg">
-                Ora puoi andare al banchetto con la coscienza a posto... oppure sfidare chi è seduto vicino a te al tavolo!
+              <p className="qa-closing-advice">
+                Ora sei ufficialmente qualificato per mediare tra un F24 e un'equazione di secondo grado!
               </p>
 
               <button 
                 type="button" 
-                className="btn btn-secondary"
+                className="btn-wiki btn-wiki-secondary"
                 onClick={handleReset}
               >
-                <RotateCcw size={18} />
-                <span>Ricomincia il Quiz</span>
+                <RotateCcw size={16} />
+                <span>Riprova il Test</span>
               </button>
             </div>
           )}
