@@ -2,7 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Wine, Search, ChevronDown, Play, BookOpen, Menu, X, CheckCircle2 } from 'lucide-react';
 
-export default function Navbar({ groomName, brideName, sections = [], onLaunchVideo, onBrindisi }) {
+export default function Navbar({ 
+  groomName, 
+  brideName, 
+  sections = [], 
+  onLaunchVideo, 
+  onBrindisi,
+  onToggleIndice,
+  isIndiceOpen 
+}) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFeedback, setSearchFeedback] = useState(false);
@@ -61,13 +69,27 @@ export default function Navbar({ groomName, brideName, sections = [], onLaunchVi
     <header className="wikihow-header-wrapper">
       {/* Barra Verde Superiore Ufficiale wikiHow */}
       <div className="wikihow-topbar">
-        <div className="wikihow-container wikihow-topbar-inner">
-          {/* Logo wikiHow iconico */}
-          <a href="#top" className="wikihow-logo" title="wikiHow to Survive 25 Anni">
-            <span className="logo-wiki">wiki</span>
-            <span className="logo-how">How</span>
-            <span className="logo-tagline">to Survive</span>
-          </a>
+        <div className="wikihow-topbar-inner">
+          {/* Sezione Sinistra: Tasto Indice + Logo wikiHow */}
+          <div className="wikihow-topbar-left">
+            <button
+              type="button"
+              className={`btn-topbar-indice ${isIndiceOpen ? 'active' : ''}`}
+              onClick={onToggleIndice}
+              title={isIndiceOpen ? "Chiudi Indice dei Contenuti" : "Apri Indice dei Contenuti wikiHow"}
+              aria-label="Indice dei Contenuti"
+            >
+              {isIndiceOpen ? <X size={18} /> : <Menu size={18} />}
+              <span className="indice-btn-text">Indice</span>
+            </button>
+
+            {/* Logo wikiHow iconico */}
+            <a href="#top" className="wikihow-logo" title="wikiHow to Survive 25 Anni">
+              <span className="logo-wiki">wiki</span>
+              <span className="logo-how">How</span>
+              <span className="logo-tagline">to Survive</span>
+            </a>
+          </div>
 
           {/* Barra di Ricerca Spiritosa wikiHow */}
           <form onSubmit={handleSearchSubmit} className="wikihow-search-box">

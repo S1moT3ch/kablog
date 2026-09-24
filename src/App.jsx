@@ -4,7 +4,6 @@ import SidebarNav from './components/SidebarNav';
 import Hero from './components/Hero';
 import FunnyStats from './components/FunnyStats';
 import ThematicGallery from './components/ThematicGallery';
-import CoupleQuiz from './components/CoupleQuiz';
 import ToastGenerator from './components/ToastGenerator';
 import Guestbook from './components/Guestbook';
 import Footer from './components/Footer';
@@ -13,7 +12,6 @@ import {
   coupleData,
   survivalStats,
   thematicSections,
-  coupleQuiz,
   funnyToasts,
   initialGuestbook
 } from './data/blogData';
@@ -24,9 +22,17 @@ import './App.css';
 
 export default function App() {
   const [photoLikes, setPhotoLikes] = useState({});
-  const [videoNotification, setVideoNotification] = useState(null);
   const [showAuguri, setShowAuguri] = useState(false);
+  const [isIndiceOpen, setIsIndiceOpen] = useState(false);
   const auguriTimerRef = useRef(null);
+
+  const handleToggleIndice = () => {
+    setIsIndiceOpen(prev => !prev);
+  };
+
+  const handleCloseIndice = () => {
+    setIsIndiceOpen(false);
+  };
 
   const handleCelebrateBrindisi = () => {
     // 1. Spettacolare pioggia di coriandoli su più onde
@@ -40,33 +46,24 @@ export default function App() {
     }
     auguriTimerRef.current = setTimeout(() => {
       setShowAuguri(false);
-    }, 3400);
+    }, 4000);
   };
 
   const handleLaunchVideo = async (sectionId, sectionTitle) => {
-    setVideoNotification({
-      message: `Avvio di VLC in corso per "${sectionTitle || sectionId}"...`,
-      type: 'info'
-    });
+    console.log(`[VLC] Richiesta apertura video per "${sectionTitle || sectionId}" (ID: ${sectionId})...`);
 
-    const result = await launchLocalVideo(sectionId);
+    try {
+      const result = await launchLocalVideo(sectionId);
 
-    if (result && result.ok) {
-      setVideoNotification({
-        message: `🎬 VLC avviato a tutto schermo: ${result.fileName || sectionTitle || sectionId}!`,
-        type: 'success'
-      });
-    } else {
-      const expected = result?.expectedFile || `${sectionId}.mp4`;
-      setVideoNotification({
-        message: `⚠️ File video "${expected}" non trovato! Copialo nella cartella 'videos/'`,
-        type: 'warning'
-      });
+      if (result && result.ok) {
+        console.log(`[VLC] 🎬 VLC avviato a tutto schermo: ${result.fileName || sectionTitle || sectionId}`, result);
+      } else {
+        const expected = result?.expectedFile || `${sectionId}.mp4`;
+        console.warn(`[VLC] ⚠️ File video "${expected}" non trovato o errore nell'avvio:`, result);
+      }
+    } catch (err) {
+      console.error(`[VLC] ❌ Errore durante l'apertura del video:`, err);
     }
-
-    setTimeout(() => {
-      setVideoNotification(null);
-    }, 5500);
   };
 
   const handleLikePhoto = (photoId) => {
@@ -81,35 +78,32 @@ export default function App() {
 
   return (
     <div className="app-layout">
-      {/* Top Fixed Header con Menù a Tendina delle Sezioni */}
+      {/* Top Fixed Header con Menù a Tendina delle Sezioni e Tasto Indice a sinistra del logo */}
       <Navbar 
         groomName={coupleData.groomName} 
         brideName={coupleData.brideName}
         sections={thematicSections}
         onLaunchVideo={handleLaunchVideo}
         onBrindisi={handleCelebrateBrindisi}
+        onToggleIndice={handleToggleIndice}
+        isIndiceOpen={isIndiceOpen}
       />
 
-      {/* Menù di Navigazione Laterale Fluttuante (Sidebar Drawer) */}
+      {/* Menù di Navigazione Laterale (Sidebar Drawer aperto dal tasto Indice) */}
       <SidebarNav 
         sections={thematicSections}
         onLaunchVideo={handleLaunchVideo}
+        isOpen={isIndiceOpen}
+        onClose={handleCloseIndice}
       />
 
-      {/* Notifica Fluttuante di Avvio VLC */}
-      {videoNotification && (
-        <div className={`vlc-toast-notification toast-${videoNotification.type}`}>
-          <div className="vlc-toast-content">
-            <span className="vlc-toast-icon">🎬</span>
-            <span className="vlc-toast-text">{videoNotification.message}</span>
-          </div>
-        </div>
-      )}
 
       {/* Scritta Grande "Auguri!!!" al Centro Schermo (Sola scritta, senza box, fluttuante tra i coriandoli) */}
       {showAuguri && (
         <div className="auguri-floating-layer" aria-live="polite">
-          <span className="auguri-standalone-text">Auguri!!!</span>
+          <div className="auguri-pulse-wrapper">
+            <span className="auguri-standalone-text">Auguri!!!</span>
+          </div>
         </div>
       )}
 
@@ -131,8 +125,6 @@ export default function App() {
           onLikePhoto={handleLikePhoto}
         />
 
-        {/* Gioco della festa: Quiz "Chi ha detto cosa?" */}
-        <CoupleQuiz quizData={coupleQuiz} />
 
         {/* Generatore di Brindisi per gli invitati */}
         <ToastGenerator 

@@ -30,20 +30,35 @@ VIDEOS_DIR = PROJECT_ROOT / "videos"
 
 # Mappa ID Sezione -> Nomi di file candidati supportati (in ordine di priorità)
 SECTION_CANDIDATES = {
+    "giovinezza": [
+        "giovinezza.mp4", "giovani.mp4", "metodo1.mp4", "metodo_1.mp4", "1.mp4", "commercialista.mp4", "ierioggi.mp4"
+    ],
+    "matrimonio": [
+        "matrimonio.mp4", "nozze.mp4", "metodo2.mp4", "metodo_2.mp4", "2.mp4", "matematica_faidate.mp4", "ierioggi.mp4", "commercialista.mp4"
+    ],
+    "famiglia": [
+        "famiglia.mp4", "casa_figli.mp4", "figli.mp4", "simone_andrea.mp4", "metodo3.mp4", "metodo_3.mp4", "3.mp4", "commercialista.mp4", "ierioggi.mp4"
+    ],
+    "viaggi": [
+        "viaggi.mp4", "viaggio.mp4", "vacanze.mp4", "metodo4.mp4", "metodo_4.mp4", "4.mp4", "spesa_sabato.mp4", "ierioggi.mp4", "commercialista.mp4"
+    ],
+    "amici": [
+        "amici.mp4", "festa.mp4", "compagnia.mp4", "metodo5.mp4", "metodo_5.mp4", "5.mp4", "ierioggi.mp4", "ierieoggi.mp4", "commercialista.mp4"
+    ],
     "commercialista": [
-        "commercialista.mp4", "antonio.mp4", "metodo1.mp4", "metodo_1.mp4", "1.mp4"
+        "giovinezza.mp4", "commercialista.mp4", "metodo1.mp4", "1.mp4"
     ],
     "matematica_faidate": [
-        "matematica_faidate.mp4", "matematica.mp4", "faidate.mp4", "katia.mp4", "bricolage.mp4", "metodo2.mp4", "metodo_2.mp4", "2.mp4"
+        "matrimonio.mp4", "matematica_faidate.mp4", "ierioggi.mp4", "metodo2.mp4", "2.mp4"
     ],
     "casa_figli": [
-        "casa_figli.mp4", "casa.mp4", "figli.mp4", "simone_andrea.mp4", "divano.mp4", "metodo3.mp4", "metodo_3.mp4", "3.mp4"
+        "famiglia.mp4", "casa_figli.mp4", "commercialista.mp4", "metodo3.mp4", "3.mp4"
     ],
     "spesa_sabato": [
-        "spesa_sabato.mp4", "spesa.mp4", "sabato.mp4", "supermercato.mp4", "metodo4.mp4", "metodo_4.mp4", "4.mp4"
+        "viaggi.mp4", "spesa_sabato.mp4", "ierioggi.mp4", "metodo4.mp4", "4.mp4"
     ],
     "ierieoggi": [
-        "ierioggi.mp4", "ierieoggi.mp4", "ieri_oggi.mp4", "ieri_e_oggi.mp4", "nozze.mp4", "matrimonio.mp4", "25anni.mp4", "metodo5.mp4", "metodo_5.mp4", "5.mp4"
+        "amici.mp4", "ierioggi.mp4", "ierieoggi.mp4", "metodo5.mp4", "5.mp4"
     ]
 }
 
@@ -97,6 +112,9 @@ def resolve_video_file(section_key):
         for f in existing_files:
             if section_key.lower() in f.name.lower():
                 return f
+        # 4. Fallback: se nessun candidato corrisponde ma ci sono video nella cartella, usa il primo disponibile
+        if existing_files:
+            return existing_files[0]
     except Exception:
         pass
 
@@ -194,7 +212,7 @@ def refocus_browser(target_hwnd=None):
     except Exception:
         pass
 
-def play_video(video_path):
+def play_video(video_path, wait=False):
     """Avvia il video con VLC (schermo intero), chiudendosi al termine e riportando il focus sul sito."""
     video_path = Path(video_path).resolve()
 
@@ -258,7 +276,10 @@ def play_video(video_path):
             except Exception:
                 pass
 
-        threading.Thread(target=_wait_and_refocus, daemon=True).start()
+        if wait:
+            _wait_and_refocus()
+        else:
+            threading.Thread(target=_wait_and_refocus, daemon=True).start()
         return True
     else:
         print(f"\n[AVVISO] VLC non individuato nei percorsi standard.")
@@ -292,17 +313,23 @@ def run_server(port=5005):
                 target = resolve_video_file(sec)
                 ok = play_video(target)
                 
+                resp_data = b'{"ok": true}'
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Length', str(len(resp_data)))
+                self.send_header('Connection', 'close')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
-                self.wfile.write(b'{"ok": true}')
+                self.wfile.write(resp_data)
             else:
+                resp_text = b"KaBlog Video Server Attivo"
                 self.send_response(200)
                 self.send_header('Content-Type', 'text/plain; charset=utf-8')
+                self.send_header('Content-Length', str(len(resp_text)))
+                self.send_header('Connection', 'close')
                 self.send_header('Access-Control-Allow-Origin', '*')
                 self.end_headers()
-                self.wfile.write(b"KaBlog Video Server Attivo")
+                self.wfile.write(resp_text)
 
         def log_message(self, format, *args):
             pass
@@ -361,7 +388,7 @@ def main():
     if args.section:
         sec_key = args.section.strip().lower()
         target_video = resolve_video_file(sec_key)
-        success = play_video(target_video)
+        success = play_video(target_video, wait=True)
         sys.exit(0 if success else 1)
     elif args.file:
         file_arg = Path(args.file)
@@ -369,7 +396,7 @@ def main():
             target_video = file_arg
         else:
             target_video = VIDEOS_DIR / file_arg
-        success = play_video(target_video)
+        success = play_video(target_video, wait=True)
         sys.exit(0 if success else 1)
     else:
         # Se avviato senza argomenti (ad esempio doppio clic dal file explorer), avvia il server listener!

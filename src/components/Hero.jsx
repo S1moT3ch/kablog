@@ -41,14 +41,14 @@ export default function Hero({ coupleData, onBrindisi }) {
         <div className="wikihow-article-header">
           {/* Titolo Ufficiale dell'Articolo wikiHow */}
           <h1 className="article-main-title">
-            Come Sopravvivere a 25 Anni di Matrimonio (Senza Omicidi)
+            Come Sopravvivere a 25 Anni di Matrimonio
           </h1>
 
           {/* Byline / Metadati wikiHow */}
           <div className="wikihow-byline-bar">
             <div className="byline-author-info">
               <span className="byline-text">
-                Co-redatto dallo <strong>Staff di Famiglia</strong>, <strong>{coupleData.groomName}</strong> e <strong>{coupleData.brideName}</strong>
+                Co-redatto dallo <strong>Staff di Famiglia</strong>
               </span>
               <span className="byline-dot">•</span>
               <span className="byline-date">
@@ -79,13 +79,13 @@ export default function Hero({ coupleData, onBrindisi }) {
         <div className="wikihow-intro-layout">
           <div className="wikihow-intro-text-column">
             <p className="intro-lead-paragraph">
-              Sopravvivere a un quarto di secolo insieme è considerata una delle imprese umane più complesse, 
-              specialmente quando la coppia è composta da un <strong>commercialista stakanovista</strong> (lavoratore H24 con pausa il weekend... forse!) 
+              Sopravvivere a un quarto di secolo insieme è considerata una delle imprese umane più complesse,
+              specialmente quando la coppia è composta da un <strong>commercialista stakanovista</strong> (lavoratore H24 con pausa il weekend... forse!)
               e da una <strong>professoressa di matematica</strong> che combatte quotidianamente con il disordine di due figli (Simone e Andrea).
             </p>
 
             <p className="intro-secondary-paragraph">
-              In questo manuale illustrato passo-passo scoprirai tutti i metodi collaudati per disinnescare la guerra fredda sui trapani casalinghi, 
+              In questo manuale illustrato passo-passo scoprirai tutti i metodi collaudati per disinnescare la guerra fredda sui trapani casalinghi,
               sopravvivere alla spedizione punitiva della spesa del sabato e mantenere vivo l'amore per oltre 9.100 giorni.
             </p>
 
@@ -117,8 +117,8 @@ export default function Hero({ coupleData, onBrindisi }) {
             </div>
 
             <div className="intro-action-row">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn-wiki btn-wiki-primary"
                 onClick={triggerConfetti}
               >
@@ -134,9 +134,9 @@ export default function Hero({ coupleData, onBrindisi }) {
           {/* Illustrazione Ufficiale di Copertina wikiHow */}
           <div className="wikihow-intro-visual-column">
             <div className="wikihow-illustration-frame">
-              <img 
-                src={coupleData.heroCoverImage} 
-                alt="Antonio e Katia per il manuale wikiHow" 
+              <img
+                src={coupleData.heroCoverImage}
+                alt="Antonio e Katia per il manuale wikiHow"
                 className="wikihow-illustration-img"
               />
               <div className="wikihow-caption-bar">

@@ -26,6 +26,54 @@
   justify-content: space-between;
   gap: 1.5rem;
   height: 62px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 1.25rem 0 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Blocco Sinistro Topbar: Tasto Indice + Logo */
+.wikihow-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-shrink: 0;
+}
+
+.btn-topbar-indice {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  padding: 0.38rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+
+.btn-topbar-indice:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+.btn-topbar-indice.active {
+  background: #ffffff;
+  color: var(--wikihow-green-dark);
+  border-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.indice-btn-text {
+  font-size: 0.84rem;
+  letter-spacing: 0.25px;
 }
 
 /* Logo iconico wikiHow */
@@ -729,6 +777,101 @@
   line-height: 1.5;
 }
 
+/* Foto Singola Principale di Ciascun Metodo */
+.method-featured-photo-card {
+  margin: 1.25rem 0 1.4rem 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.method-featured-photo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+}
+
+.method-featured-photo-frame {
+  width: 100%;
+  max-height: 420px;
+  background: #f8fafc;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.method-featured-img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.method-featured-photo-card:hover .method-featured-img {
+  transform: scale(1.015);
+}
+
+.method-featured-caption {
+  padding: 0.65rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.91rem;
+  font-style: italic;
+  color: #4b5563;
+  line-height: 1.45;
+  background: #fafbf9;
+  border-top: 1px solid #edf0e6;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.method-caption-icon {
+  font-style: normal;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* Corpo Discorsivo a Paragrafi dei Metodi (Senza passaggi fotografici) */
+.method-discursive-body {
+  margin: 1.25rem 0 1.6rem 0;
+  padding: 1.6rem 2.2rem;
+  background: #ffffff;
+  border-left: 4.5px solid var(--wikihow-green);
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  border-top: 1px solid #edf0e6;
+  border-right: 1px solid #edf0e6;
+  border-bottom: 1px solid #edf0e6;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.method-discursive-paragraph {
+  font-family: var(--font-body);
+  font-size: 1.04rem;
+  color: #374151;
+  line-height: 1.78;
+  margin: 0;
+}
+
+.method-discursive-paragraph strong,
+.narrative-keyword {
+  color: #111827;
+  font-weight: 700;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
 .method-header-right {
   display: flex;
   flex-direction: column;
@@ -892,10 +1035,39 @@
 }
 
 .step-text {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   color: #333333;
   line-height: 1.4;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Paragrafo discorsivo del singolo passaggio */
+.step-discursive-paragraph {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  color: #374151;
+  line-height: 1.65;
+  margin: 0 0 0.85rem 0;
+}
+
+/* Card aneddoto / nota a mano personalizzata */
+.step-anecdote-badge {
+  background: #fbfbf6;
+  border-left: 3px solid #f59e0b;
+  border-top: 1px solid #f2f3ec;
+  border-right: 1px solid #f2f3ec;
+  border-bottom: 1px solid #f2f3ec;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  margin-bottom: 0.85rem;
+}
+
+.step-anecdote-quote {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: #92400e;
+  line-height: 1.35;
+  display: block;
 }
 
 .step-meta-footer {
@@ -1550,39 +1722,7 @@
   max-width: 580px;
 }
 
-/* --- Menù Laterale Indice Contenuti (Sidebar) wikiHow --- */
-.wikihow-sidebar-toggle {
-  position: fixed;
-  top: 135px;
-  left: 16px;
-  z-index: 95;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: #ffffff;
-  border: 1.5px solid var(--wikihow-green);
-  color: var(--wikihow-green-dark);
-  padding: 0.42rem 0.85rem;
-  border-radius: var(--radius-full);
-  box-shadow: 0 4px 14px rgba(67, 107, 45, 0.18), 0 1px 3px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  font-weight: 700;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.wikihow-sidebar-toggle:hover {
-  background: var(--wikihow-green-pale);
-  transform: scale(1.05) translateX(2px);
-}
-
-.wikihow-sidebar-toggle.is-open {
-  background: var(--wikihow-green-dark);
-  color: #ffffff;
-  border-color: var(--wikihow-green-dark);
-  padding: 0.4rem 0.55rem;
-}
 
 .wikihow-sidebar-drawer {
   position: fixed;
@@ -1812,6 +1952,14 @@
 }
 
 @media (max-width: 768px) {
+  .wikihow-topbar-left {
+    gap: 0.5rem;
+  }
+
+  .btn-topbar-indice {
+    padding: 0.35rem 0.6rem;
+  }
+
   .wikihow-search-box {
     display: none;
   }
@@ -1918,13 +2066,32 @@
   pointer-events: none; /* Non blocca in alcun modo click o scroll */
   user-select: none;
   background: transparent !important; /* Nessun box, rettangolo o velo di sfondo */
-  padding: 1rem;
+  will-change: opacity;
+}
+
+.auguri-pulse-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  animation: auguriPurePulse 1.05s ease-in-out infinite alternate;
+}
+
+@keyframes auguriPurePulse {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  100% {
+    transform: scale3d(1.07, 1.07, 1);
+  }
 }
 
 .auguri-standalone-text {
-  font-family: 'Poppins', var(--font-primary), system-ui, -apple-system, sans-serif;
-  font-size: clamp(4.8rem, 15vw, 11rem);
-  font-weight: 950;
+  font-family: 'Plus Jakarta Sans', var(--font-ui), system-ui, -apple-system, sans-serif;
+  font-size: clamp(4.5rem, 14vw, 10rem);
+  font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: clamp(3px, 1.2vw, 10px);
@@ -1938,53 +2105,38 @@
     #ea580c 88%,
     #ffffff 100%
   );
-  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* Contorno netto e tripla ombra per massima visibilità sia su sfondi chiari che scuri */
-  -webkit-text-stroke: clamp(2px, 0.35vw, 4px) rgba(255, 255, 255, 0.98);
+  /* Tratti rimossi: nessun -webkit-text-stroke che sporchi l'interno di A ed R */
+  -webkit-text-stroke: 0;
+  /* Ombre leggere e nitide per non saturare la GPU */
   filter: 
-    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.85))
-    drop-shadow(0 0 35px rgba(245, 158, 11, 0.95))
-    drop-shadow(0 0 75px rgba(251, 191, 36, 0.85));
-  animation: 
-    auguriTextPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-    shimmerGold 2.5s linear infinite,
-    auguriPulse 1.2s ease-in-out infinite alternate;
+    drop-shadow(0 4px 10px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 0 16px rgba(245, 158, 11, 0.75));
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  /* Solo pop-in d'ingresso scattante a 60 FPS senza pulsazione continua infinita */
+  animation: auguriTextPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes auguriTextPop {
   0% {
     opacity: 0;
-    transform: scale(0.25) translateY(50px) rotate(-6deg);
+    transform: scale(0.35) translateY(25px);
   }
-  65% {
+  70% {
     opacity: 1;
-    transform: scale(1.15) translateY(-8px) rotate(2deg);
+    transform: scale(1.08) translateY(-4px);
   }
-  82% {
-    transform: scale(0.97) translateY(2px) rotate(-1deg);
+  88% {
+    transform: scale(0.98) translateY(2px);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0) rotate(0deg);
+    transform: scale(1) translateY(0);
   }
-}
-
-@keyframes auguriPulse {
-  0% {
-    transform: scale(1) rotate(0deg);
-  }
-  100% {
-    transform: scale(1.06) rotate(1deg);
-  }
-}
-
-@keyframes shimmerGold {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 

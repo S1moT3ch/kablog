@@ -1,28 +1,51 @@
 import React, { useState } from 'react';
-import { Play, Heart, Lightbulb, AlertTriangle, BookOpen, Film } from 'lucide-react';
+import { Play, Lightbulb, AlertTriangle, BookOpen } from 'lucide-react';
 
 const sectionTipsAndWarnings = {
+  giovinezza: {
+    tip: "Conservare le foto e i ricordi dei primi appuntamenti serve a dimostrare ai figli che anche mamma e papà sono stati giovani e spensierati!",
+    warning: "Rivedere le pettinature e la moda degli anni '90 e 2000 può provocare improvvisi attacchi di risa incontrollata."
+  },
+  matrimonio: {
+    tip: "Quel 26 settembre 2001 la promessa era solenne: sostenersi a vicenda nella gioia, nel dolore e durante ogni scadenza dell'anno!",
+    warning: "Dopo 25 anni di matrimonio, pronunciare la frase 'Hai ragione tu, cara' non è una resa, ma una brillante mossa strategica."
+  },
+  famiglia: {
+    tip: "Per far alzare Simone e Andrea dal divano in meno di 3 secondi netti, basta staccare momentaneamente la spina del router Wi-Fi.",
+    warning: "Chiedere a un figlio di cercare qualcosa nell'armadio attiva istantaneamente una cecità selettiva temporanea."
+  },
+  viaggi: {
+    tip: "In vacanza la valigia di Katia è organizzata con precisione millimetrica; quella di Antonio contiene almeno un fascicolo di scorta 'non si sa mai'.",
+    warning: "Partire per un viaggio senza aver prima controllato 4 volte di aver chiuso il gas, le finestre e la dichiarazione dei redditi è severamente vietato."
+  },
+  amici: {
+    tip: "Gli amici veri sono quelli che brindano con te dopo 25 anni e ricordano ancora tutti gli aneddoti più imbarazzanti degli inizi!",
+    warning: "Non lasciare mai il microfono della festa in mano all'amico del cuore dopo il terzo calice di spumante."
+  },
   commercialista: {
     tip: "Se Antonio dice che 'chiude solo una partita doppia e arriva a tavola', hai tutto il tempo di cucinare un arrosto di 3 ore.",
     warning: "Non nominare mai cartelle esattoriali o scadenze F24 durante la cena di anniversario."
-  },
-  matematica_faidate: {
-    tip: "Se una mensola montata da Antonio pende di 15 gradi, puoi compensarla inclinando la testa quando entri nella stanza.",
-    warning: "L'uso del trapano a percussione è severamente vietato dalle 15:00 alle 19:00 durante le lezioni pomeridiane di Katia."
-  },
-  casa_figli: {
-    tip: "Per far alzare Simone e Andrea dal divano in meno di 3 secondi, basta staccare la spina del router Wi-Fi.",
-    warning: "Chiedere a un figlio maschio di cercare qualcosa nel cassetto attiva istantaneamente una cecità selettiva temporanea."
-  },
-  spesa_sabato: {
-    tip: "Posiziona gli snack e i dolciumi sotto il sacco delle patate per superare indenne il controllo doganale di Katia alla cassa.",
-    warning: "Entrare al supermercato il sabato mattina senza la lista ordinata per corsie porta a un inevitabile smarrimento in corsia 4."
   },
   ierieoggi: {
     tip: "Ridere insieme ogni giorno è l'unico ingrediente segreto collaudato per superare le Nozze d'Argento e puntare all'Oro!",
     warning: "Dopo 25 anni, pronunciare la frase 'Hai ragione tu, cara' non è una resa, ma una brillante mossa da maestro."
   }
 };
+
+function renderFormattedText(text) {
+  if (typeof text !== 'string') return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={index} className="narrative-keyword">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
 
 export default function ThematicGallery({ sections, onLaunchVideo, photoLikes, onLikePhoto }) {
   const [activeTab, setActiveTab] = useState("all");
@@ -114,7 +137,6 @@ export default function ThematicGallery({ sections, onLaunchVideo, photoLikes, o
                     </span>
                     <h3 className="method-part-title">{sec.title}</h3>
                     <p className="method-part-subtitle handwritten">"{sec.subtitle}"</p>
-                    <p className="method-part-intro">{sec.description}</p>
                   </div>
 
                   <div className="method-header-right">
@@ -129,83 +151,41 @@ export default function ThematicGallery({ sections, onLaunchVideo, photoLikes, o
                       </span>
                       <span>Avvia Video (Metodo {secIdx + 1}) ▶</span>
                     </button>
-                    <span className="method-video-hint">Riproduzione video in VLC a schermo intero</span>
                   </div>
                 </div>
 
-                {/* Lista dei Passaggi Numerati di wikiHow (Step 1, 2, 3...) */}
-                <div className="method-steps-list">
-                  {sec.photos.map((photo, pIdx) => {
-                    const currentLikes = photoLikes[photo.id] !== undefined 
-                      ? photoLikes[photo.id] 
-                      : photo.likes;
+                {/* Foto Singola del Metodo */}
+                {sec.methodImage && (
+                  <figure className="method-featured-photo-card">
+                    <div className="method-featured-photo-frame">
+                      <img
+                        src={sec.methodImage.url}
+                        alt={sec.methodImage.alt || sec.title}
+                        className="method-featured-img"
+                        loading="lazy"
+                        onError={(e) => {
+                          if (sec.methodImage.fallbackUrl && e.target.src !== sec.methodImage.fallbackUrl) {
+                            e.target.src = sec.methodImage.fallbackUrl;
+                          }
+                        }}
+                      />
+                    </div>
+                    {sec.methodImage.caption && (
+                      <figcaption className="method-featured-caption">
+                        <span className="method-caption-icon">📷</span>
+                        <span>{sec.methodImage.caption}</span>
+                      </figcaption>
+                    )}
+                  </figure>
+                )}
 
-                    return (
-                      <div key={photo.id} className="wikihow-step-row">
-                        {/* Numero del Passaggio (cerchio verde wikiHow) */}
-                        <div className="step-number-circle">
-                          {pIdx + 1}
-                        </div>
-
-                        {/* Contenuto del Passaggio */}
-                        <div className="step-body-content">
-                          <div className="step-title-row">
-                            <h4 className="step-action-headline">
-                              {photo.title}
-                            </h4>
-                            <span className="step-year-tag">Anno {photo.year}</span>
-                          </div>
-
-                          <div className="step-layout-grid">
-                            {/* Illustrazione wikiHow del Passaggio */}
-                            <div 
-                              className="step-illustration-box"
-                              onClick={() => onLaunchVideo && onLaunchVideo(sec.id, sec.title)}
-                              title="Clicca per riprodurre il video di questo metodo"
-                            >
-                              <img 
-                                src={photo.url} 
-                                alt={photo.title} 
-                                className="step-illustration-img"
-                                loading="lazy"
-                              />
-                              <span className="step-corner-badge">{photo.badge}</span>
-                              <div className="step-image-overlay">
-                                <span className="btn-step-overlay">
-                                  <Play size={14} className="fill-current" /> Guarda il Video ▶
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Spiegazione & Reazioni */}
-                            <div className="step-description-box">
-                              <p className="step-text handwritten">
-                                «{photo.caption}»
-                              </p>
-
-                              <div className="step-meta-footer">
-                                <span className="step-verified-note">
-                                  ✓ Passaggio testato sul campo
-                                </span>
-                                <button
-                                  type="button"
-                                  className="btn-step-like"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    onLikePhoto(photo.id);
-                                  }}
-                                  title="Fai ridere!"
-                                >
-                                  <Heart size={15} className={currentLikes > photo.likes ? "fill-rose text-rose" : "text-gray"} />
-                                  <span>{currentLikes} Approvazioni</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* Paragrafi Discorsivi del Metodo */}
+                <div className="method-discursive-body">
+                  {(sec.paragraphs || [sec.description]).map((paragraph, pIdx) => (
+                    <p key={pIdx} className="method-discursive-paragraph">
+                      {renderFormattedText(paragraph)}
+                    </p>
+                  ))}
                 </div>
 
                 {/* Box Ufficiali wikiHow: Consiglio & Avvertenza */}

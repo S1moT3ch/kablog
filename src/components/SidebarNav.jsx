@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Play, BookOpen, Home, BarChart2, 
-  HelpCircle, Wine, MessageSquare, CheckSquare, Film
+  Wine, MessageSquare, CheckSquare, Film
 } from 'lucide-react';
 
 const shortTitles = {
+  giovinezza: "1. La Giovinezza",
+  matrimonio: "2. Il Matrimonio",
+  famiglia: "3. La Famiglia",
+  viaggi: "4. I Viaggi",
+  amici: "5. Gli Amici",
   commercialista: "1. Il Commercialista H24",
   matematica_faidate: "2. Matematica vs Fai-da-te",
   casa_figli: "3. La Casa & i Figli",
@@ -12,8 +17,23 @@ const shortTitles = {
   ierieoggi: "5. 26 Settembre vs Oggi"
 };
 
-export default function SidebarNav({ sections = [], onLaunchVideo }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SidebarNav({ 
+  sections = [], 
+  onLaunchVideo, 
+  isOpen: propIsOpen, 
+  onClose 
+}) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = propIsOpen !== undefined ? propIsOpen : internalIsOpen;
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      setInternalIsOpen(false);
+    }
+  };
+
   const [activeSection, setActiveSection] = useState('top');
 
   useEffect(() => {
@@ -21,7 +41,6 @@ export default function SidebarNav({ sections = [], onLaunchVideo }) {
       'top',
       'statistiche',
       ...sections.map(s => `section-${s.id}`),
-      'quiz',
       'brindisi',
       'guestbook'
     ];
@@ -48,9 +67,7 @@ export default function SidebarNav({ sections = [], onLaunchVideo }) {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    if (window.innerWidth < 1024) {
-      setIsOpen(false);
-    }
+    handleClose();
   };
 
   const handlePlayVideo = (sec, shortTitle, e) => {
@@ -59,36 +76,16 @@ export default function SidebarNav({ sections = [], onLaunchVideo }) {
     if (onLaunchVideo) {
       onLaunchVideo(sec.id, shortTitle);
     }
-    if (window.innerWidth < 1024) {
-      setIsOpen(false);
-    }
+    handleClose();
   };
 
   return (
     <>
-      {/* Linguetta Fluttuante Verde Stile wikiHow */}
-      <button
-        type="button"
-        className={`wikihow-sidebar-toggle ${isOpen ? 'is-open' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        title={isOpen ? "Chiudi Indice" : "Indice dei Contenuti wikiHow"}
-        aria-label="Indice dei Contenuti"
-      >
-        {isOpen ? (
-          <X size={17} />
-        ) : (
-          <>
-            <BookOpen size={15} />
-            <span className="toggle-label-text">Indice Articolo</span>
-          </>
-        )}
-      </button>
-
-      {/* Sfondo oscurato */}
+      {/* Sfondo oscurato (Backdrop) */}
       {isOpen && (
         <div 
           className="sidebar-backdrop-overlay" 
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
         />
       )}
 
@@ -105,7 +102,7 @@ export default function SidebarNav({ sections = [], onLaunchVideo }) {
           <button 
             type="button" 
             className="wiki-sidebar-close-btn"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClose}
             aria-label="Chiudi"
           >
             <X size={16} />
@@ -179,16 +176,6 @@ export default function SidebarNav({ sections = [], onLaunchVideo }) {
           <div className="wiki-sidebar-group">
             <span className="wiki-sidebar-label">Community & Festa</span>
             <ul className="wiki-sidebar-list">
-              <li>
-                <a 
-                  href="#quiz" 
-                  className={`wiki-sidebar-link ${activeSection === 'quiz' ? 'active' : ''}`}
-                  onClick={(e) => scrollToId('quiz', e)}
-                >
-                  <HelpCircle size={14} />
-                  <span>Domande della Community (Quiz)</span>
-                </a>
-              </li>
               <li>
                 <a 
                   href="#brindisi" 
