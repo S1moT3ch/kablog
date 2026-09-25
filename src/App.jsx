@@ -5,15 +5,14 @@ import Hero from './components/Hero';
 import FunnyStats from './components/FunnyStats';
 import ThematicGallery from './components/ThematicGallery';
 import ToastGenerator from './components/ToastGenerator';
-import Guestbook from './components/Guestbook';
+import ContributiSection from './components/ContributiSection';
 import Footer from './components/Footer';
 
 import {
   coupleData,
   survivalStats,
   thematicSections,
-  funnyToasts,
-  initialGuestbook
+  funnyToasts
 } from './data/blogData';
 import { launchLocalVideo } from './utils/videoLauncher';
 import { triggerGrandConfetti } from './utils/celebration';
@@ -132,8 +131,8 @@ export default function App() {
           onBrindisi={handleCelebrateBrindisi}
         />
 
-        {/* Guestbook interattivo dei consigli */}
-        <Guestbook initialEntries={initialGuestbook} />
+        {/* Video-Contributi e Dediche Speciali dei Lettori */}
+        <ContributiSection onLaunchVideo={handleLaunchVideo} />
       </main>
 
       {/* Footer celebrativo */}

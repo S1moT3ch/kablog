@@ -80,13 +80,13 @@ export default function Hero({ coupleData, onBrindisi }) {
           <div className="wikihow-intro-text-column">
             <p className="intro-lead-paragraph">
               Sopravvivere a un quarto di secolo insieme è considerata una delle imprese umane più complesse,
-              specialmente quando la coppia è composta da un <strong>commercialista stakanovista</strong> (lavoratore H24 con pausa il weekend... forse!)
-              e da una <strong>professoressa di matematica</strong> che combatte quotidianamente con il disordine di due figli (Simone e Andrea).
+              specialmente quando la coppia è composta da un <strong>commercialista instancabile</strong> (lavoratore H24 con pausa il weekend... forse!)
+              e da una <strong>donna esperta di matematica</strong> che combatte quotidianamente con il disordine di due figli.
             </p>
 
             <p className="intro-secondary-paragraph">
               In questo manuale illustrato passo-passo scoprirai tutti i metodi collaudati per disinnescare la guerra fredda sui trapani casalinghi,
-              sopravvivere alla spedizione punitiva della spesa del sabato e mantenere vivo l'amore per oltre 9.100 giorni.
+              sopravvivere alla pigrizia dei figli e mantenere vivo l'amore per oltre 9.100 giorni.
             </p>
 
             {/* Box Cose che ti serviranno (Things You'll Need) */}
@@ -102,32 +102,15 @@ export default function Hero({ coupleData, onBrindisi }) {
                   <strong>1 Calcolatrice / F24:</strong> per gestire le scadenze fiscali di Antonio a qualsiasi ora.
                 </li>
                 <li>
-                  <strong>1 Lavagna con gessetti:</strong> per le lezioni pomeridiane no-stop di Katia.
+                  <strong>1 Blocknotes:</strong> per le lezioni pomeridiane no-stop di Katia.
                 </li>
                 <li>
                   <strong>2 Divani rinforzati:</strong> su cui far accomodare Simone e Andrea mentre la mamma pulisce.
                 </li>
                 <li>
-                  <strong>4 Carrelli capienti:</strong> per la spedizione titanica del sabato al supermercato.
-                </li>
-                <li>
                   <strong>Pazienza infinita e tantissimo amore:</strong> la formula matematica segreta per arrivare all'Oro!
                 </li>
               </ul>
-            </div>
-
-            <div className="intro-action-row">
-              <button
-                type="button"
-                className="btn-wiki btn-wiki-primary"
-                onClick={triggerConfetti}
-              >
-                <Wine size={18} />
-                <span>Stappa lo Spumante delle Nozze d'Argento! 🍾</span>
-              </button>
-              <a href="#temi" className="btn-wiki btn-wiki-secondary">
-                <span>Vai ai 5 Metodi Illustrati ⬇️</span>
-              </a>
             </div>
           </div>
 
@@ -142,7 +125,7 @@ export default function Hero({ coupleData, onBrindisi }) {
               <div className="wikihow-caption-bar">
                 <span className="caption-fig-number">Figura 1</span>
                 <p className="caption-text handwritten">
-                  «Antonio e Katia fotografati dopo 25 anni: sorridenti, complici e con zero omicidi commessi!»
+                  «Antonio e Katia fotografati dopo 25 anni: sorridenti, complici e senza pensieri!»
                 </p>
               </div>
             </div>

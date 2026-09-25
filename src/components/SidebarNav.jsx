@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Play, BookOpen, Home, BarChart2, 
-  Wine, MessageSquare, CheckSquare, Film
+  Wine, MessageSquare, CheckSquare, Film, Gift
 } from 'lucide-react';
 
 const shortTitles = {
@@ -42,7 +42,7 @@ export default function SidebarNav({
       'statistiche',
       ...sections.map(s => `section-${s.id}`),
       'brindisi',
-      'guestbook'
+      'contributi'
     ];
 
     const handleScroll = () => {
@@ -161,7 +161,7 @@ export default function SidebarNav({
                         type="button"
                         className="btn-wiki-nav-play"
                         onClick={(e) => handlePlayVideo(sec, shortTitle, e)}
-                        title={`Avvia il Video di ${shortTitle} in VLC`}
+                        title={`Guarda la Video-Guida di ${shortTitle} in VLC`}
                       >
                         <Play size={10} className="fill-current" />
                       </button>
@@ -188,12 +188,12 @@ export default function SidebarNav({
               </li>
               <li>
                 <a 
-                  href="#guestbook" 
-                  className={`wiki-sidebar-link ${activeSection === 'guestbook' ? 'active' : ''}`}
-                  onClick={(e) => scrollToId('guestbook', e)}
+                  href="#contributi" 
+                  className={`wiki-sidebar-link ${activeSection === 'contributi' ? 'active' : ''}`}
+                  onClick={(e) => scrollToId('contributi', e)}
                 >
                   <MessageSquare size={14} />
-                  <span>Recensioni dei Lettori</span>
+                  <span>Video-Commenti dei Lettori 💬</span>
                 </a>
               </li>
             </ul>

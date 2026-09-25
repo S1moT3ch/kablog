@@ -15,8 +15,8 @@ const sectionTipsAndWarnings = {
     warning: "Chiedere a un figlio di cercare qualcosa nell'armadio attiva istantaneamente una cecità selettiva temporanea."
   },
   viaggi: {
-    tip: "In vacanza la valigia di Katia è organizzata con precisione millimetrica; quella di Antonio contiene almeno un fascicolo di scorta 'non si sa mai'.",
-    warning: "Partire per un viaggio senza aver prima controllato 4 volte di aver chiuso il gas, le finestre e la dichiarazione dei redditi è severamente vietato."
+    tip: "In vacanza è Antonio a chiudere le valigie con precisione millimetrica; Katia ha un solo grande obiettivo: trovare il prato di montagna perfetto per stendere la sua copertina e riposare!",
+    warning: "Non toccare la disposizione dei bagagli calcolata da Antonio e non disturbare Katia quando la copertina è stesa sull'erba."
   },
   amici: {
     tip: "Gli amici veri sono quelli che brindano con te dopo 25 anni e ricordano ancora tutti gli aneddoti più imbarazzanti degli inizi!",
@@ -64,7 +64,7 @@ export default function ThematicGallery({ sections, onLaunchVideo, photoLikes, o
           </span>
           <h2>I 5 Metodi Illustrati di Sopravvivenza</h2>
           <p className="wikihow-section-desc">
-            Segui attentamente le istruzioni illustrate per ciascun metodo. Clicca sul tasto verde <strong>"Avvia Video"</strong> per riprodurre il video a schermo intero!
+            Segui attentamente le istruzioni illustrate per ciascun metodo. Clicca sul tasto verde <strong>"Segui la Video-Guida"</strong> per riprodurre il video a schermo intero!
           </p>
         </div>
 
@@ -144,48 +144,50 @@ export default function ThematicGallery({ sections, onLaunchVideo, photoLikes, o
                       type="button"
                       className="btn-wiki btn-wiki-primary btn-launch-method-play"
                       onClick={() => onLaunchVideo && onLaunchVideo(sec.id, sec.title)}
-                      title="Avvia il Video di questo Metodo in VLC a tutto schermo"
+                      title="Segui la Video-Guida di questo Metodo in VLC a tutto schermo"
                     >
                       <span className="method-round-play-icon">
                         <Play size={14} className="fill-white" />
                       </span>
-                      <span>Avvia Video (Metodo {secIdx + 1}) ▶</span>
+                      <span>Segui la Video-Guida</span>
                     </button>
                   </div>
                 </div>
 
-                {/* Foto Singola del Metodo */}
-                {sec.methodImage && (
-                  <figure className="method-featured-photo-card">
-                    <div className="method-featured-photo-frame">
-                      <img
-                        src={sec.methodImage.url}
-                        alt={sec.methodImage.alt || sec.title}
-                        className="method-featured-img"
-                        loading="lazy"
-                        onError={(e) => {
-                          if (sec.methodImage.fallbackUrl && e.target.src !== sec.methodImage.fallbackUrl) {
-                            e.target.src = sec.methodImage.fallbackUrl;
-                          }
-                        }}
-                      />
-                    </div>
-                    {sec.methodImage.caption && (
-                      <figcaption className="method-featured-caption">
-                        <span className="method-caption-icon">📷</span>
-                        <span>{sec.methodImage.caption}</span>
-                      </figcaption>
-                    )}
-                  </figure>
-                )}
-
-                {/* Paragrafi Discorsivi del Metodo */}
+                {/* Paragrafi Discorsivi del Metodo con Foto Integrata */}
                 <div className="method-discursive-body">
+                  {sec.methodImage && (
+                    <figure className="method-featured-photo-card">
+                      <div className="method-featured-photo-frame">
+                        <img
+                          src={sec.methodImage.url}
+                          alt={sec.methodImage.alt || sec.title}
+                          className="method-featured-img"
+                          loading="lazy"
+                          onError={(e) => {
+                            if (sec.methodImage.fallbackUrl && e.target.src !== sec.methodImage.fallbackUrl) {
+                              e.target.src = sec.methodImage.fallbackUrl;
+                            }
+                          }}
+                        />
+                      </div>
+                      {sec.methodImage.caption && (
+                        <figcaption className="method-featured-caption">
+                          <span className="method-caption-icon">📷</span>
+                          <span>{sec.methodImage.caption}</span>
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
+
                   {(sec.paragraphs || [sec.description]).map((paragraph, pIdx) => (
                     <p key={pIdx} className="method-discursive-paragraph">
                       {renderFormattedText(paragraph)}
                     </p>
                   ))}
+
+                  {/* Clearfix per contenere l'eventuale altezza fluttuante */}
+                  <div className="method-clearfix" />
                 </div>
 
                 {/* Box Ufficiali wikiHow: Consiglio & Avvertenza */}

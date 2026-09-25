@@ -29,11 +29,11 @@ export const survivalStats = [
     icon: "Coffee",
   },
   {
-    id: "trapano",
-    value: "0 Autorizzazioni",
-    label: "Guerra al Bricolage & Fai-da-te",
-    detail: "Antonio compra attrezzi in segreto; Katia applica il divieto di trapano in casa.",
-    icon: "Wrench",
+    id: "pisolini",
+    value: "8.000+",
+    label: "Ore di Pisolini sul Divano",
+    detail: "«Non stavo mica dormendo: stavo solo riposando gli occhi cinque minuti ascoltando la TV!»",
+    icon: "Moon",
   },
   {
     id: "divano",
@@ -61,21 +61,21 @@ export const survivalStats = [
 export const thematicSections = [
   {
     id: "giovinezza",
-    title: "1. La Giovinezza: I Primi Sguardi, la Spensieratezza e l'Inizio di Tutto",
+    title: "1. La Giovinezza: Il Gruppo di Amici, la Spensieratezza e l'Inizio di Tutto",
     shortTitle: "1. La Giovinezza",
-    subtitle: "«Prima dei bilanci fiscali, delle lezioni di matematica e dei figli: quando bastavano uno sguardo e una risata!»",
-    badge: "🌱 Gli Anni della Giovinezza",
-    description: "Il primo capitolo della nostra storia: gli anni della spensieratezza, i primi appuntamenti timidi, le uscite in compagnia e la scintilla che ha acceso un legame destinato a durare per oltre un quarto di secolo.",
+    subtitle: "«Nel cuore della storica comitiva, tra scampagnate e risate: quando è nata la scintilla tra Antonio e Katia!»",
+    badge: "🌱 Il Gruppo & la Giovinezza",
+    description: "Il primo capitolo della nostra storia: gli anni indimenticabili delle uscite con la comitiva di amici di allora, le giornate in campagna, le risate spensierate e la scintilla speciale che ha acceso un legame lungo oltre un quarto di secolo.",
     methodImage: {
-      url: "/photos/metodo1_giovinezza.jpg",
+      url: "/photos/Giovani.jpg",
       fallbackUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
-      caption: "Quello sguardo che valeva più di mille parole: galeotta fu la serata in cui i nostri mondi si sono incrociati!",
-      alt: "1. La Giovinezza - Antonio e Katia"
+      caption: "I Giovani e la loro spensieratezza durante una giornata in campagna",
+      alt: "1. La Giovinezza - Antonio e Katia con il gruppo di amici"
     },
     paragraphs: [
-      "Tutto ha avuto inizio sul finire degli **anni '90**, un'epoca fatta di pomeriggi trascorsi all'aria aperta, audiocassette riavvolte con la penna biro e una totale, **beata spensieratezza**. Prima che Antonio scoprisse la passione travolgente per i **bilanci fiscali**, i crediti d'imposta e gli **F24 inviati a mezzanotte**, e prima che Katia trasformasse il salotto in una cattedra pomeridiana di **matematica ed equazioni differenziali**, c'erano semplicemente due ragazzi con tanta voglia di ridere e di stare insieme.",
-      "Il **corteggiamento di quegli anni** non conosceva la velocità frenetica dei social network o delle chat istantanee: ci si dava appuntamento all'angolo della piazza, si sperava che la cabina telefonica non inghiottisse l'ultimo gettone e si vinceva la timidezza con **battute argute e sguardi rubati**. Passo dopo passo, tra le prime **gite fuori porta in motorino** e le serate interminabili con la **storica comitiva di amici**, Antonio e Katia hanno costruito una **sintonia naturale**, basata sulla reciproca ironia e su valori condivisi.",
-      "Riscoprire la propria giovinezza a **venticinque anni di distanza** non è solo un dolce esercizio di nostalgia, ma il **segreto fondamentale** di ogni matrimonio duraturo: ricordarsi sempre com'è nata quella **scintilla originaria**, per continuare a guardarsi negli occhi con la stessa **allegria e leggerezza del primo giorno**."
+      "Tutto è iniziato nella **storica comitiva di amici degli anni '90**: ritrovi in piazza, risate spensierate e memorabili **giornate in campagna**. Prima dei bilanci fiscali di Antonio e delle lezioni di Katia, c'era solo un gruppo unito e pieno di vita.",
+      "Tra una scampagnata e una battuta in compagnia, è scoccata la **scintilla tra Antonio e Katia**: sguardi complici, passeggiate a due a fine serata e una **rara sintonia** sbocciata sotto gli occhi affettuosi degli amici di sempre.",
+      "Rivedere quelle foto a **25 anni di distanza** ricorda le radici genuine del loro amore: un legame nato con naturalezza, custodito con la stessa **allegria e complicità del primo giorno**."
     ],
     photos: [
       {
@@ -128,15 +128,15 @@ export const thematicSections = [
     badge: "💍 Il Grande Giorno (26-09-2001)",
     description: "Il giorno in cui tutto è diventato ufficiale. Quel 26 settembre 2001 davanti a parenti e amici, Antonio e Katia hanno pronunciato il fatidico «Sì, lo voglio», dando il via a 25 anni di complicità incrollabile (e zero omicidi commessi!).",
     methodImage: {
-      url: "/photos/metodo2_matrimonio.jpg",
+      url: "/photos/Matrimonio.jpg",
       fallbackUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
       caption: "26 Settembre 2001: il giorno del sì, l'inizio ufficiale di una splendida avventura a due!",
       alt: "2. Il Matrimonio - Antonio e Katia"
     },
     paragraphs: [
-      "La mattina del **26 settembre 2001** il sole splendeva alto e l'emozione nell'aria era quasi palpabile. Per Antonio e Katia non si trattava semplicemente di indossare gli abiti delle grandi occasioni, ma di suggellare davanti a Dio, alle famiglie e agli amici più cari la **promessa di una vita intera**. Antonio, visibilmente commosso e per una volta **senza cartellette d'ufficio al seguito**, attendeva all'altare con il cuore a mille; Katia, radiosa nel suo **abito bianco**, avanzava con passo sicuro illuminando la navata della chiesa.",
-      "La cerimonia fu un concentrato di commozione autentica e solennità: il **rito delle fedi nuziali** fu il momento culminante in cui due percorsi individuali si sono fusi in un **unico destino condiviso**. Il fatidico **«Sì, lo voglio»** pronunciato quel giorno rappresentava un patto di lealtà, amore e reciproco sostegno nei momenti di trionfo così come nelle prove più impegnative della quotidianità.",
-      "Dopo la cerimonia, i festeggiamenti esplosero in una giornata memorabile di brindisi, risate a crepapelle e **balli sfrenati fino a notte fonda**. Quel 26 settembre ha gettato le fondamenta di un **sodalizio formidabile**, che attraverso **25 anni di convivenza armoniosa** (e **zero omicidi commessi!**) ha dimostrato come la **complicità e il rispetto reciproco** possano superare brillantemente qualsiasi sfida del tempo."
+      "La mattina del **26 settembre 2001** Antonio e Katia hanno suggellato la promessa di una vita. **Antonio emozionatissimo** (rigorosamente senza cartellette d'ufficio al seguito) e **Katia radiosa in abito bianco** hanno pronunciato il fatidico **«Sì, lo voglio»** davanti a parenti e amici.",
+      "Dallo **scambio delle fedi** alla festa scatenata tra canti, risate e **brindisi fino a notte fonda**, è iniziato un cammino fondato su lealtà, rispetto e reciproco sostegno quotidiano.",
+      "Oggi, festeggiare **25 anni di matrimonio** e **zero omicidi commessi** è la prova vivente che l'amore vero, condito da una buona dose di ironia, sa superare brillantemente la prova del tempo."
     ],
     photos: [
       {
@@ -189,15 +189,15 @@ export const thematicSections = [
     badge: "🏠 Focolare & I Nostri Ragazzi",
     description: "Costruire una famiglia significa condividere tutto: la crescita dei figli Simone e Andrea, le maratone quotidiane per far quadrare compiti e orari, l'eterna lotta al disordine casalingo e quel calore unico che si respira ogni sera rientrando a casa.",
     methodImage: {
-      url: "/photos/metodo3_famiglia.jpg",
+      url: "/photos/Famiglia.jpeg",
       fallbackUrl: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
-      caption: "La nostra famiglia: l'amore più grande e il capolavoro più prezioso di questi 25 anni!",
+      caption: "La famiglia: l'amore più grande e il capolavoro più prezioso di questi 25 anni!",
       alt: "3. La Famiglia - Simone, Andrea, Katia e Antonio"
     },
     paragraphs: [
-      "Se il matrimonio rappresenta il patto a due, la **nascita della famiglia** è l'inizio dell'avventura più travolgente e gratificante. Con l'arrivo dei figli, **Simone e Andrea**, la casa di Antonio e Katia si è riempita di giocattoli, risate infantili, compiti pomeridiani e quella straordinaria confusione che rende vivo ogni angolo domestico. È stato allora che l'unione della coppia ha rivelato la sua forza più matura: dividersi le veglie notturne, **crescere insieme i ragazzi** e gioire per ogni loro piccolo grande traguardo.",
-      "Negli anni, la convivenza familiare ha sviluppato una dinamica comica e irresistibile degna di una commedia teatrale: da una parte **mamma Katia**, che gestisce la logistica, le faccende e la scuola con la **precisione chirurgica di un teorema matematico**; dall'altra **papà Antonio**, instancabile lavoratore sempre pronto a rassicurare tutti tra una consulenza e una battuta, nonostante il **rigido veto imposto sull'uso del trapano in casa**. Nel mezzo ci sono Simone e Andrea, **campioni indiscussi di mimetizzazione sul divano** nel preciso istante in cui si chiede un aiuto per sparecchiare la tavola.",
-      "Oggi, vedendo **Simone e Andrea ormai adulti**, con i propri percorsi e le proprie personalità mature, Antonio e Katia sanno che il loro **capolavoro più prezioso** non è scritto in un bilancio né in un'equazione, ma negli occhi dei loro ragazzi. La famiglia è stata ed è il loro **porto sicuro**, il rifugio dove ogni sera si torna a casa per ritrovarsi uniti con **affetto incrollabile**."
+      "Con la nascita dei figli, **Simone e Andrea**, la casa si è riempita di giochi, compiti e risate. Crescere insieme i ragazzi è stata l'avventura più travolgente e gratificante per Antonio e Katia.",
+      "Negli anni la routine familiare è diventata un capolavoro comico: **mamma Katia** che coordina casa con **precisione chirurgica**, **papà Antonio** instancabile lavoratore e Simone e Andrea campioni del **supporto morale dal divano**.",
+      "Oggi che **i ragazzi sono ormai adulti**, guardare il loro cammino è l'orgoglio più grande: la famiglia è il vero **capolavoro di questi 25 anni** e il porto sicuro in cui ritrovarsi ogni sera."
     ],
     photos: [
       {
@@ -246,19 +246,19 @@ export const thematicSections = [
     id: "viaggi",
     title: "4. I Viaggi: Alla Scoperta del Mondo Insieme",
     shortTitle: "4. I Viaggi",
-    subtitle: "«Valigia di Katia organizzata al millimetro; valigia di Antonio con almeno un fascicolo di scorta 'non si sa mai'!»",
+    subtitle: "«Antonio chiude le valigie con precisione millimetrica; Katia ama la montagna per stendere la sua copertina sull'erba e riposare!»",
     badge: "✈️ Esplorando il Mondo Insieme",
-    description: "Viaggiare insieme è il modo migliore per staccare la spina dalla routine quotidiana. Dalle città d'arte alle spiagge assolate, dalle gite di pochi giorni alle grandi avventure: ogni viaggio ha aggiunto una pagina indimenticabile al nostro album dei ricordi.",
+    description: "Viaggiare insieme è il modo migliore per staccare la spina dalla routine quotidiana. Dalle vette alpine alle città d'arte, dalle gite di pochi giorni alle grandi avventure: ogni viaggio ha aggiunto una pagina indimenticabile al nostro album dei ricordi.",
     methodImage: {
-      url: "/photos/metodo4_viaggi.jpg",
+      url: "/photos/Viaggi.jpeg",
       fallbackUrl: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
       caption: "In viaggio per il mondo: esplorando insieme orizzonti lontani e collezionando ricordi indimenticabili.",
       alt: "4. I Viaggi - Alla scoperta del mondo insieme"
     },
     paragraphs: [
-      "**Viaggiare insieme** è sempre stato per Antonio e Katia l'antidoto più efficace contro lo stress e la routine del lavoro quotidiano. Non appena si profilava all'orizzonte una finestra di tempo libero, il richiamo della partenza si faceva irresistibile: preparare i bagagli significava chiudere momentaneamente cartellette e libri di testo per **aprirsi al mondo con curiosità, stupore e voglia di divertirsi in coppia**.",
-      "I preparativi di ogni viaggio sono da sempre uno spettacolo comico ben collaudato: **Katia organizza la valigia** con un rigore da scacchista, stilando **itinerari dettagliati**, guide turistiche sottolineate e una tabella di marcia che prevede di svegliarsi all'alba per camminare **20 chilometri al giorno senza perdersi un museo**. **Antonio**, dal canto suo, promette solennemente di riposarsi, salvo poi infilare furtivamente nella tasca del trolley almeno un **fascicolo fiscale di scorta** 'da leggere solo qualora piovesse'.",
-      "Dalle **spiagge assolate delle vacanze estive**, dove il mare fa da sottofondo ai cruciverba di Katia, fino alle **grandi capitali europee** attraversate a passo di marcia tra cattedrali e piazze storiche, ogni viaggio ha aggiunto una pagina indimenticabile al loro album di ricordi. Viaggiare insieme ha insegnato loro che **non conta tanto la meta**, quanto la bellezza di avere accanto **la persona giusta con cui condividere la strada**."
+      "Per Antonio e Katia **viaggiare insieme** è sempre stato l'antidoto ideale alla routine: l'occasione per staccare dal lavoro e **scoprire il mondo mano nella mano** con curiosità ed entusiasmo.",
+      "I preparativi sono un siparietto fisso: **Antonio è il maestro assoluto delle valigie**, che chiude con **precisione ingegneristica al millimetro** incastrando tutto alla perfezione. Dal canto suo, **Katia ama profondamente la montagna**: l'aria fresca, il silenzio dei boschi e soprattutto quel momento sacro in cui può **stendere la sua amata copertina sull'erba per riposare** in totale quiete.",
+      "Dalle vette alpine alle **città d'arte e ai mari lontani**, ogni meta ha regalato ricordi indelebili, confermando che la vera bellezza del viaggio è avere accanto **la persona giusta con cui condividere la strada** (e la copertina!)."
     ],
     photos: [
       {
@@ -273,13 +273,13 @@ export const thematicSections = [
       },
       {
         id: "via2",
-        url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
-        title: "Le Vacanze Estive al Mare: Relax e Ricarica",
-        text: "Le estati trascorse al mare rappresentano da sempre la meritata parentesi di rigenerazione. Sotto l'ombrellone, tra una nuotata rinfrescante e una fetta d'anguria, Katia si dedica con passione ai suoi immancabili cruciverba e letture estive, mentre Antonio si concede finalmente un po' di sano riposo, riuscendo (quasi sempre) a dimenticarsi del lavoro.",
-        caption: "Anche a 35 gradi sotto l'ombrellone: il profumo di salsedine, i cruciverba di Katia e Antonio che si rilassa meritatamente!",
-        badge: "Sole & Relax",
+        url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+        title: "La Montagna di Katia: La Copertina sull'Erba e la Quiete",
+        text: "Tra tutte le mete, la montagna occupa un posto speciale nel cuore di Katia: niente fretta, la brezza tra i pini e, immancabile nello zaino, la sua fedele copertina da stendere sul prato. Mentre Antonio si gode il panorama dopo aver organizzato e caricato i bagagli con la consueta precisione, Katia si stende sull'erba per un sonnellino rigenerante a contatto con la natura.",
+        caption: "Katia e la sua celebre copertina stesa sull'erba d'alta quota: la definizione perfetta di pace, natura e meritato riposo!",
+        badge: "Montagna & Copertina",
         year: "2012",
-        likes: 138,
+        likes: 185,
       },
       {
         id: "via3",
@@ -296,7 +296,7 @@ export const thematicSections = [
         url: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80",
         title: "Verso Nuove Mete: Il Viaggio Più Bello Continua",
         text: "A 25 anni di distanza dal primo viaggio insieme, la voglia di fare i bagagli e scoprire nuovi luoghi è più viva che mai. Con passaporti rinnovati e tanta curiosità nel cuore, Antonio e Katia sono pronti a scegliere la prossima destinazione da esplorare, consapevoli che il viaggio più bello è la vita che continuano a costruire insieme ogni giorno.",
-        caption: "25 anni di valigie fatte e disfatte sempre col sorriso: pronti a salpare verso il prossimo meraviglioso orizzonte!",
+        caption: "25 anni di valigie chiuse a regola d'arte da Antonio e copertine stese da Katia: pronti a partire verso il prossimo meraviglioso orizzonte!",
         badge: "Sempre in Partenza",
         year: "2026",
         likes: 215,
@@ -311,15 +311,15 @@ export const thematicSections = [
     badge: "🥂 Amici di Sempre & Allegria",
     description: "Gli amici sono la famiglia che ci si sceglie: compagni di cene memorabili, testimoni delle tappe più importanti, complici di scherzi e brindisi infiniti. Questo capitolo è dedicato a tutte le persone speciali che hanno camminato al nostro fianco in questi 25 anni.",
     methodImage: {
-      url: "/photos/metodo5_amici.jpg",
+      url: "/photos/Amici.jpg",
       fallbackUrl: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1200&q=80",
-      caption: "Con gli amici di sempre: tavolate piene, calici alzati e risate sincere che scaldano il cuore!",
+      caption: "Con gli amici di sempre: tavolate piene e risate sincere che scaldano il cuore!",
       alt: "5. Gli Amici - Serate e momenti indimenticabili"
     },
     paragraphs: [
-      "Gli **amici sono la famiglia che scegliamo** lungo il cammino della vita, e per Antonio e Katia hanno sempre rappresentato un **pilastro fondamentale e insostituibile**. In un quarto di secolo di matrimonio, la loro casa non è mai stata una fortezza chiusa, ma uno **spazio aperto e accogliente**, profumato di buona cucina, arricchito da **tavolate infinite** e risonante di risate sincere capaci di spazzare via qualsiasi preoccupazione.",
-      "Ci sono **amici storici** che ricordano ancora gli inizi timidi del loro fidanzamento, quando si usciva in comitiva e si scommetteva su quella coppia così affiatata; e ci sono **amici incontrati lungo la strada**, con cui si sono condivise le tappe della maturità, le vacanze estive, le cene del sabato sera e la crescita dei rispettivi figli. In ogni circostanza, l'amicizia è stata un collante prezioso, un porto sicuro fatto di **confidenze sincere davanti a un calice di vino** e di **sostegno reciproco** in ogni stagione della vita.",
-      "Festeggiare le **Nozze d'Argento** acquista il suo vero e pieno significato proprio grazie alla **condivisione con queste persone speciali**. Un anniversario così importante è anche l'occasione ideale per dire un **grazie immenso a tutti gli amici**: per la loro presenza discreta ma costante, per le risate contagiose e per aver reso questi **25 anni un percorso indimenticabile**, ricco di affetto, allegria e calore umano."
+      "Gli **amici sono la famiglia che ci si sceglie**: in 25 anni di matrimonio, la casa di Antonio e Katia è sempre stata un porto caloroso, animato da **tavolate infinite** e risate sincere.",
+      "Dagli **amici storici della comitiva** a quelli incontrati lungo il cammino, ogni momento condiviso — tra pizze fumanti, un buon calice di vino e le vacanze insieme — ha arricchito questo splendido percorso.",
+      "Festeggiare le **Nozze d'Argento** è l'occasione perfetta per dire un **grazie di cuore a tutti voi**: per esserci stati in ogni tappa, con lo stesso affetto e la stessa contagiosa allegria di sempre!"
     ],
     photos: [
       {
@@ -405,11 +405,10 @@ export const coupleQuiz = [
 ];
 
 export const funnyToasts = [
+  "«25 anni di matrimonio: la dimostrazione vivente che Antonio ha trovato la migliore detrazione fiscale della sua vita e Katia la frazione complementare perfetta!» ❤️",
   "«Un brindisi ad Antonio e Katia: 25 anni insieme! Il bilancio è in perfetto attivo, le tasse sull'amore sono deducibili al 100% e il teorema della felicità è ufficialmente dimostrato!» 🥂",
   "«A Katia per la pazienza infinita nel sopportare le scadenze fiscali e i tentativi di bricolage di Antonio... e ad Antonio per aver capito che contro una professoressa di matematica non si vince mai una discussione!» 😂",
   "«Un brindisi speciale da parte di Simone e Andrea: 'Auguri mamma e papà! Per festeggiare i vostri 25 anni promettiamo solennemente di... mettere i piatti nel lavandino almeno una volta questo mese!'» 🎉",
-  "«25 anni di matrimonio: la dimostrazione vivente che Antonio ha trovato la migliore detrazione fiscale della sua vita e Katia la frazione complementare perfetta!» ❤️",
-  "«Alziamo i calici alla regina della spesa del sabato e al re dei bilanci: 25 anni di Nozze d'Argento spettacolari. Ora dritti verso l'oro!» 🏆"
 ];
 
 export const initialGuestbook = [

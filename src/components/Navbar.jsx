@@ -171,7 +171,7 @@ export default function Navbar({
                         type="button"
                         className="btn-wiki-nav-play"
                         onClick={(e) => handleLaunchVideo(sec, e)}
-                        title="Avvia il Video in VLC"
+                        title="Guarda la Video-Guida in VLC"
                       >
                         <Play size={10} className="fill-current" />
                       </button>

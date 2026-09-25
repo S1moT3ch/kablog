@@ -1,0 +1,167 @@
+// Dati dei Video-Commenti e Recensioni della Community wikiHow (Nozze d'Argento)
+export const CONTRIBUTI_DATA = [
+  {
+    id: "recensione-01",
+    author: "@gianni_pesca_e_funghi59",
+    badge: "Pensione & Relax",
+    commentTitle: "Video-Recensione #1",
+    tagline: "Ha lasciato una calorosa video-recensione a 5 stelle prima di andare a pescare",
+    stars: 5,
+    filename: "Anna&OttavioDEFv2.mp4",
+    type: "video",
+    duration: "00:36",
+    realTitle: "Anna & Ottavio",
+    realSender: "Famiglia & Affetti",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-02",
+    author: "@mariella_caffettino_buongiornissimo",
+    badge: "Gruppo Buongiorno Caffè",
+    commentTitle: "Video-Recensione #2",
+    tagline: "Ha condiviso un approfondito video-commento tra un caffè e l'altro",
+    stars: 5,
+    filename: "AT&AP.mp4",
+    type: "video",
+    duration: "02:54",
+    realTitle: "Antonio & Anna",
+    realSender: "Amici Storici",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-03",
+    author: "@franco_e_rossana_profilo_unico",
+    badge: "Profilo Condiviso",
+    commentTitle: "Video-Recensione #3",
+    tagline: "Hanno pubblicato un video-augurio di coppia con uno scatto a sorpresa allegato!",
+    stars: 5,
+    filename: "CugineK.mp4",
+    type: "video",
+    duration: "00:09",
+    realTitle: "Le Cugine di Katia",
+    realSender: "Il Clan delle Cugine",
+    date: "Settembre 2026",
+    attachmentPhoto: {
+      filename: "Tommy.jpg",
+      title: "Tommy ❤️",
+      dedication: "«Felice anniversario Katia e Antonio ❤️»",
+      photoUrl: "/photos/contributi/Tommy.jpg"
+    }
+  },
+  {
+    id: "recensione-04",
+    author: "@silvano_esperto_cantieri_61",
+    badge: "Supervisore di Cantieri",
+    commentTitle: "Video-Recensione #4",
+    tagline: "Ha registrato un video-commento a mani conserte dietro la schiena",
+    stars: 5,
+    filename: "Ema&Linda.mp4",
+    type: "video",
+    duration: "00:31",
+    realTitle: "Emanuele & Linda",
+    realSender: "Parenti & Amici",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-05",
+    author: "@claudio_camperista_doc",
+    badge: "Club Campeggiatori 4x4",
+    commentTitle: "Video-Recensione #5 (Parte 1)",
+    tagline: "Ha allegato una lunga video-testimonianza direttamente dall'area di sosta (Parte 1)",
+    stars: 5,
+    filename: "F&S_a.mp4",
+    type: "video",
+    duration: "03:22",
+    realTitle: "F & S — Parte 1",
+    realSender: "Amici della Compagnia",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-06",
+    author: "@marisa_gattara_e_uncinetto",
+    badge: "Amica dei Pelosi",
+    commentTitle: "Video-Recensione #6 (Parte 2)",
+    tagline: "Ha condiviso il video-brindisi conclusivo con tanti baci (Parte 2)",
+    stars: 5,
+    filename: "F&S_b.mp4",
+    type: "video",
+    duration: "00:29",
+    realTitle: "F & S — Parte 2",
+    realSender: "Amici della Compagnia",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-07",
+    author: "@enzo_interista_doc1960",
+    badge: "Bar Sport Club",
+    commentTitle: "Video-Recensione #7",
+    tagline: "Ha inviato un messaggio di congratulazioni e saggezza calcistico-matrimoniale",
+    stars: 5,
+    filename: "G&F.mp4",
+    type: "video",
+    duration: "00:20",
+    realTitle: "G & F",
+    realSender: "Amici di Sempre",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-08",
+    author: "@teresa_ricette_e_rosari",
+    badge: "Cuoca Tradizionale",
+    commentTitle: "Video-Recensione #8",
+    tagline: "Ha lasciato un sentito video-commento sui veri segreti per durare 25 anni",
+    stars: 5,
+    filename: "M&G.mp4",
+    type: "video",
+    duration: "02:19",
+    realTitle: "M & G",
+    realSender: "Compagni di Viaggio",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-09",
+    author: "@pino_orto_bio_e_motoseghe",
+    badge: "Pollice Verde D.O.C.",
+    commentTitle: "Video-Recensione #9",
+    tagline: "Ha caricato un video-saluto flash da 4 secondi con il pollice alzato",
+    stars: 5,
+    filename: "M&P.mp4",
+    type: "video",
+    duration: "00:04",
+    realTitle: "M & P",
+    realSender: "Amici del Cuore",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-10",
+    author: "@giorgio_fai_da_te_brico",
+    badge: "Brico & Fai-Da-Te",
+    commentTitle: "Video-Recensione #10",
+    tagline: "Ha pubblicato un video-augurio speciale testato con livella e tasselli",
+    stars: 5,
+    filename: "N&M.mp4",
+    type: "video",
+    duration: "00:24",
+    realTitle: "N & M",
+    realSender: "Amici Storici",
+    date: "Settembre 2026"
+  },
+  {
+    id: "recensione-11",
+    author: "@annarosa_cuore_di_mamma58",
+    badge: "Nonna Sprint",
+    commentTitle: "Video-Recensione #11",
+    tagline: "Ha condiviso un commosso video-commento per il traguardo delle Nozze d'Argento",
+    stars: 5,
+    filename: "VGT.mp4",
+    type: "video",
+    duration: "00:23",
+    realTitle: "VGT",
+    realSender: "Amici & Gruppo",
+    date: "Settembre 2026"
+  }
+];
+
+
+
+

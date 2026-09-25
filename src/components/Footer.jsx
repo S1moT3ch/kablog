@@ -1,6 +1,6 @@
 import React from 'react';
 import confetti from 'canvas-confetti';
-import { Heart, ArrowUp, Sparkles, BookOpen, ShieldCheck } from 'lucide-react';
+import { Heart, ArrowUp } from 'lucide-react';
 
 export default function Footer({ groomName, brideName, onBrindisi }) {
   const scrollToTop = () => {
@@ -23,29 +23,14 @@ export default function Footer({ groomName, brideName, onBrindisi }) {
   return (
     <footer className="wikihow-footer">
       <div className="wikihow-container">
-        {/* Box informativo personalizzazione foto */}
-        <div className="wikihow-footer-info-card">
-          <div className="footer-info-left">
-            <div className="footer-info-icon">
-              <BookOpen size={24} className="text-green" />
-            </div>
-            <div>
-              <h4 className="footer-info-title">
-                Pronto a inserire le vostre foto reali nel manuale? 📸
-              </h4>
-              <p className="footer-info-desc">
-                Tutte le foto, i testi dei passaggi e le statistiche si modificano facilmente nel file <code>src/data/blogData.js</code>. 
-                Puoi posizionare le tue foto in <code>public/photos/</code> per completare la guida ufficiale delle Nozze d'Argento!
-              </p>
-            </div>
-          </div>
-
+        {/* Bottone Verde Celebrativo Viva Antonio & Katia */}
+        <div className="wikihow-footer-action-row">
           <button 
             type="button" 
-            className="btn-wiki btn-wiki-primary"
+            className="btn-wiki btn-wiki-primary btn-footer-celebration"
             onClick={triggerCelebration}
           >
-            <Heart size={16} />
+            <Heart size={18} />
             <span>Viva Antonio & Katia! 🥂</span>
           </button>
         </div>

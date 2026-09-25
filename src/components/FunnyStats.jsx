@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Award, Coffee, Wrench, Heart, Luggage, Utensils, CheckCircle2, BarChart2 } from 'lucide-react';
+import { Award, Coffee, Wrench, Heart, Luggage, Utensils, CheckCircle2, BarChart2, Moon } from 'lucide-react';
 
 const iconMap = {
   Award: Award,
@@ -8,6 +8,7 @@ const iconMap = {
   Heart: Heart,
   Luggage: Luggage,
   Utensils: Utensils,
+  Moon: Moon,
 };
 
 export default function FunnyStats({ stats }) {

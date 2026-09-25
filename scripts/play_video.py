@@ -90,29 +90,70 @@ def find_vlc():
 
     return None
 
-def resolve_video_file(section_key):
-    """Cerca il file video tra i candidati ufficiali o cerca corrispondenze parziali nella cartella videos."""
-    VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
-    candidates = SECTION_CANDIDATES.get(section_key, [f"{section_key}.mp4"])
+def get_contributi_dir():
+    fallback = Path(r"D:\Simone\Edit\25_AM\Contributi")
+    if fallback.exists():
+        return fallback
+    lnk = PROJECT_ROOT / "public" / "Contributi.lnk"
+    if lnk.exists():
+        try:
+            import win32com.client
+            shell = win32com.client.Dispatch("WScript.Shell")
+            shortcut = shell.CreateShortcut(str(lnk))
+            if shortcut.TargetPath and Path(shortcut.TargetPath).exists():
+                return Path(shortcut.TargetPath)
+        except Exception:
+            pass
+    return None
 
-    # 1. Cerca corrispondenza esatta tra i candidati
+def resolve_video_file(section_key):
+    """Cerca il file video tra i video delle sezioni o nella cartella Contributi."""
+    if not section_key:
+        return VIDEOS_DIR / "commercialista.mp4"
+
+    # Se è già un percorso assoluto esistente
+    p = Path(section_key)
+    if p.is_absolute() and p.exists():
+        return p
+
+    # 1. Controlla nella cartella Contributi
+    c_dir = get_contributi_dir()
+    if c_dir and c_dir.exists():
+        target = c_dir / section_key
+        if target.exists():
+            return target
+        for f in c_dir.iterdir():
+            if f.name.lower() == section_key.lower():
+                return f
+            if f.stem.lower() == section_key.lower():
+                return f
+
+    # 2. Controlla nella cartella videos
+    VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
+    target = VIDEOS_DIR / section_key
+    if target.exists():
+        return target
+
+    candidates = SECTION_CANDIDATES.get(section_key.lower(), [f"{section_key}.mp4"])
+
+    # 3. Cerca corrispondenza esatta tra i candidati
     for name in candidates:
         target = VIDEOS_DIR / name
         if target.exists():
             return target
 
-    # 2. Cerca corrispondenza case-insensitive nella cartella
+    # 4. Cerca corrispondenza case-insensitive nella cartella videos
     try:
         existing_files = list(VIDEOS_DIR.glob("*.mp4"))
         for f in existing_files:
             for name in candidates:
                 if f.name.lower() == name.lower():
                     return f
-        # 3. Match parziale sul nome
+        # Match parziale sul nome
         for f in existing_files:
             if section_key.lower() in f.name.lower():
                 return f
-        # 4. Fallback: se nessun candidato corrisponde ma ci sono video nella cartella, usa il primo disponibile
+        # Fallback: primo video disponibile
         if existing_files:
             return existing_files[0]
     except Exception:
@@ -308,8 +349,8 @@ def run_server(port=5005):
             parsed = urllib.parse.urlparse(self.path)
             if parsed.path.startswith('/play') or parsed.path.startswith('/api/play'):
                 params = urllib.parse.parse_qs(parsed.query)
-                sec = params.get('section', params.get('sectionId', ['commercialista']))[0]
-                print(f"\n[CLICK DAL SITO] Avvio video per: '{sec}'")
+                sec = params.get('file', params.get('fileName', params.get('section', params.get('sectionId', ['commercialista']))))[0]
+                print(f"\n[CLICK DAL SITO] Avvio video/file per: '{sec}'")
                 target = resolve_video_file(sec)
                 ok = play_video(target)
                 

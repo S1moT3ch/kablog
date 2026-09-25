@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { spawn } from 'child_process'
+import { spawn, execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
@@ -21,51 +21,231 @@ const SECTION_VIDEO_CANDIDATES = {
 }
 
 // Plugin Vite per gestire il trigger dello script Python locale
+// Helper per risolvere la cartella Contributi (da collegamento .lnk o percorso diretto)
+let cachedContributiDir = null
+function getContributiDir() {
+  if (cachedContributiDir && fs.existsSync(cachedContributiDir)) {
+    return cachedContributiDir
+  }
+  const defaultDir = 'D:\\Simone\\Edit\\25_AM\\Contributi'
+  if (fs.existsSync(defaultDir)) {
+    cachedContributiDir = defaultDir
+    return cachedContributiDir
+  }
+  const lnkPath = path.resolve(__dirname, 'public', 'Contributi.lnk')
+  if (fs.existsSync(lnkPath)) {
+    try {
+      const stdout = execSync(
+        `powershell -NoProfile -Command "(New-Object -ComObject WScript.Shell).CreateShortcut('${lnkPath}').TargetPath"`,
+        { encoding: 'utf8', timeout: 2000 }
+      ).trim()
+      if (stdout && fs.existsSync(stdout)) {
+        cachedContributiDir = stdout
+        return cachedContributiDir
+      }
+    } catch {
+      // fallback
+    }
+  }
+  return null
+}
+
 function localVideoLauncherPlugin() {
   return {
     name: 'local-video-launcher',
     configureServer(server) {
+      // 1. Endpoint per ottenere la lista dinamica dei file presenti in Contributi
+      server.middlewares.use('/api/contributi-list', (req, res) => {
+        const cDir = getContributiDir()
+        if (!cDir || !fs.existsSync(cDir)) {
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ ok: false, files: [] }))
+          return
+        }
+
+        try {
+          const validExts = ['.mp4', '.mov', '.mkv', '.avi', '.webm', '.jpg', '.jpeg', '.png', '.webp']
+          const knownDurations = {
+            'anna&ottavio_def.mp4': '00:36',
+            'anna&ottaviodefv2.mp4': '00:36',
+            'at&ap.mp4': '02:54',
+            'cuginek.mp4': '00:09',
+            'ema&linda.mp4': '00:31',
+            'f&s_a.mp4': '03:22',
+            'f&s_b.mp4': '00:29',
+            'g&f.mp4': '00:20',
+            'm&g.mp4': '02:19',
+            'm&p.mp4': '00:04',
+            'n&m.mp4': '00:24',
+            'vgt.mp4': '00:23',
+            'tommy.jpg': 'Foto'
+          }
+
+          const rawEntries = fs.readdirSync(cDir)
+          const mediaFiles = rawEntries
+            .filter(f => !f.startsWith('.') && validExts.includes(path.extname(f).toLowerCase()))
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
+
+          const files = mediaFiles.map((file, idx) => {
+            const fullPath = path.join(cDir, file)
+            const stat = fs.statSync(fullPath)
+            const ext = path.extname(file).toLowerCase()
+            const isVideo = ext === '.mp4' || ext === '.mov' || ext === '.mkv' || ext === '.avi' || ext === '.webm'
+            const isPhoto = ext === '.jpg' || ext === '.jpeg' || ext === '.png' || ext === '.webp'
+            const duration = knownDurations[file.toLowerCase()] || (isPhoto ? 'Foto' : null)
+
+            return {
+              filename: file,
+              extension: ext,
+              size: stat.size,
+              modified: stat.mtimeMs,
+              isVideo,
+              isPhoto,
+              duration,
+              index: idx + 1
+            }
+          })
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ ok: true, count: files.length, files }))
+        } catch (err) {
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ ok: false, error: err.message, files: [] }))
+        }
+      })
+
+      // 2. Endpoint per servire lo streaming video/foto con supporto a byte range
+      server.middlewares.use('/api/contributi-media', (req, res) => {
+        const cDir = getContributiDir()
+        if (!cDir || !fs.existsSync(cDir)) {
+          res.statusCode = 404
+          res.end('Contributi folder not found')
+          return
+        }
+
+        let requestedFile = ''
+        try {
+          const urlObj = new URL(req.url, 'http://localhost')
+          requestedFile = decodeURIComponent(urlObj.pathname.replace(/^\//, ''))
+          if (!requestedFile) {
+            requestedFile = urlObj.searchParams.get('file') || ''
+          }
+        } catch {
+          // ignore
+        }
+
+        if (!requestedFile) {
+          res.statusCode = 400
+          res.end('No file specified')
+          return
+        }
+
+        const safeFilename = path.basename(requestedFile)
+        const filePath = path.join(cDir, safeFilename)
+
+        if (!fs.existsSync(filePath)) {
+          res.statusCode = 404
+          res.end(`File ${safeFilename} not found`)
+          return
+        }
+
+        const stat = fs.statSync(filePath)
+        const fileSize = stat.size
+        const range = req.headers.range
+        const ext = path.extname(filePath).toLowerCase()
+        const contentType = ext === '.mp4' ? 'video/mp4' : 
+                            (ext === '.jpg' || ext === '.jpeg') ? 'image/jpeg' : 
+                            ext === '.png' ? 'image/png' : 'application/octet-stream'
+
+        if (range) {
+          const parts = range.replace(/bytes=/, '').split('-')
+          const start = parseInt(parts[0], 10)
+          const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
+          const chunksize = (end - start) + 1
+          const fileStream = fs.createReadStream(filePath, { start, end })
+          res.writeHead(206, {
+            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunksize,
+            'Content-Type': contentType,
+            'Cache-Control': 'public, max-age=3600'
+          })
+          fileStream.pipe(res)
+        } else {
+          res.writeHead(200, {
+            'Content-Length': fileSize,
+            'Content-Type': contentType,
+            'Accept-Ranges': 'bytes',
+            'Cache-Control': 'public, max-age=3600'
+          })
+          fs.createReadStream(filePath).pipe(res)
+        }
+      })
+
+      // 3. Endpoint per avviare il video fullscreen con VLC (per sezioni guida o per contributi)
       server.middlewares.use('/api/play-video', (req, res) => {
-        const executeScript = (sectionId) => {
-          const targetSec = sectionId || 'commercialista'
-          console.log(`\n[KaBlog Video API] Richiesta riproduzione video per: "${targetSec}"`)
+        const executePlayback = (targetParam) => {
+          const rawTarget = (targetParam || 'commercialista').trim()
+          console.log(`\n[KaBlog Video API] Richiesta riproduzione per: "${rawTarget}"`)
 
           const videosDir = path.resolve(__dirname, 'videos')
-          const candidates = SECTION_VIDEO_CANDIDATES[targetSec] || [`${targetSec}.mp4`]
-          
-          let foundFile = null
-          if (fs.existsSync(videosDir)) {
+          const cDir = getContributiDir()
+
+          let resolvedPath = null
+          let foundFileName = null
+
+          // A. Controlla prima se è un file specifico nella cartella Contributi
+          if (cDir && fs.existsSync(cDir)) {
+            const directContributo = path.join(cDir, path.basename(rawTarget))
+            if (fs.existsSync(directContributo)) {
+              resolvedPath = directContributo
+              foundFileName = path.basename(rawTarget)
+            } else {
+              // Cerca senza distinzione maiuscole/minuscole
+              const cFiles = fs.readdirSync(cDir)
+              const match = cFiles.find(f => f.toLowerCase() === rawTarget.toLowerCase() || f.toLowerCase() === `${rawTarget.toLowerCase()}.mp4`)
+              if (match) {
+                resolvedPath = path.join(cDir, match)
+                foundFileName = match
+              }
+            }
+          }
+
+          // B. Se non trovato nei Contributi, cerca nella cartella videos/ del progetto
+          if (!resolvedPath && fs.existsSync(videosDir)) {
+            const candidates = SECTION_VIDEO_CANDIDATES[rawTarget.toLowerCase()] || [rawTarget, `${rawTarget}.mp4`]
             const existingFiles = fs.readdirSync(videosDir)
             for (const cand of candidates) {
               const match = existingFiles.find(f => f.toLowerCase() === cand.toLowerCase())
               if (match) {
-                foundFile = match
+                resolvedPath = path.resolve(videosDir, match)
+                foundFileName = match
                 break
               }
             }
-            // Fallback: se nessun candidato corrisponde, usa il primo video disponibile
-            if (!foundFile) {
+
+            // Fallback se nessun candidato corrisponde
+            if (!resolvedPath) {
               const anyMp4 = existingFiles.find(f => f.toLowerCase().endsWith('.mp4'))
               if (anyMp4) {
-                foundFile = anyMp4
+                resolvedPath = path.resolve(videosDir, anyMp4)
+                foundFileName = anyMp4
               }
             }
           }
 
-          if (!foundFile) {
-            console.log(`[KaBlog Video API] [NON TROVATO] Nessun file video presente in videos/ per "${targetSec}"`)
+          if (!resolvedPath || !fs.existsSync(resolvedPath)) {
+            console.log(`[KaBlog Video API] [NON TROVATO] Nessun file video presente per "${rawTarget}"`)
             res.setHeader('Content-Type', 'application/json')
             res.end(JSON.stringify({
               ok: false,
               fileFound: false,
-              sectionId: targetSec,
-              expectedFile: candidates[0],
-              message: `File "${candidates[0]}" non trovato nella cartella videos/`
+              target: rawTarget,
+              message: `File video per "${rawTarget}" non trovato né in Contributi né in videos/`
             }))
             return
           }
 
-          const videoFilePath = path.resolve(videosDir, foundFile)
+          const isPhoto = /\.(jpe?g|png|webp)$/i.test(resolvedPath)
           const vlcCandidates = [
             'C:\\Program Files\\VideoLAN\\VLC\\vlc.exe',
             'C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe',
@@ -74,8 +254,8 @@ function localVideoLauncherPlugin() {
           
           const vlcExe = vlcCandidates.find(p => fs.existsSync(p))
 
-          if (vlcExe) {
-            console.log(`[KaBlog Video API] Avvio diretto VLC a tutto schermo: "${foundFile}"`)
+          if (!isPhoto && vlcExe) {
+            console.log(`[KaBlog Video API] Avvio diretto VLC a tutto schermo: "${resolvedPath}"`)
             try {
               const vlcProc = spawn(vlcExe, [
                 '--fullscreen',
@@ -83,7 +263,7 @@ function localVideoLauncherPlugin() {
                 '--play-and-exit',
                 '--no-video-title-show',
                 '--no-qt-privacy-ask',
-                videoFilePath
+                resolvedPath
               ], {
                 detached: true,
                 stdio: 'ignore'
@@ -92,66 +272,77 @@ function localVideoLauncherPlugin() {
             } catch (err) {
               console.error('[KaBlog Video API] Errore avvio VLC diretto:', err)
             }
+          } else if (isPhoto) {
+            // Per immagini (es. Tommy.jpg), apre con comando di sistema
+            console.log(`[KaBlog Video API] Apertura foto: "${resolvedPath}"`)
+            try {
+              spawn('cmd', ['/c', 'start', '""', resolvedPath], {
+                detached: true,
+                stdio: 'ignore'
+              }).unref()
+            } catch (err) {
+              console.error('[KaBlog Video API] Errore apertura foto:', err)
+            }
           } else {
+            // Fallback con script Python
             const scriptPath = path.resolve(__dirname, 'scripts', 'play_video.py')
             const pythonExe = fs.existsSync('C:\\Python314\\python.exe') ? 'C:\\Python314\\python.exe' : 'python'
             
-            // Esegue lo script Python in modo autonomo
-            const pyProcess = spawn(pythonExe, [scriptPath, '--section', targetSec], {
+            const pyProcess = spawn(pythonExe, [scriptPath, '--file', resolvedPath], {
               cwd: __dirname,
               detached: true,
               stdio: 'ignore'
             })
             pyProcess.unref()
-
-            pyProcess.on('error', (err) => {
-              console.error('[KaBlog Video API] Errore esecuzione Python:', err)
-            })
           }
 
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify({
             ok: true,
             fileFound: true,
-            fileName: foundFile,
-            sectionId: targetSec,
-            message: `Avvio di VLC per "${foundFile}"!`
+            fileName: foundFileName,
+            filePath: resolvedPath,
+            message: `Avvio a schermo intero per "${foundFileName}"!`
           }))
         }
 
-        // 1. Controlla prima i parametri URL query (es. ?sectionId=...)
-        let querySection = ''
+        // 1. Controlla parametri query URL
+        let targetParam = ''
         if (req.url) {
           try {
             const urlObj = new URL(req.url, 'http://localhost')
-            querySection = urlObj.searchParams.get('sectionId') || urlObj.searchParams.get('section') || ''
+            targetParam = urlObj.searchParams.get('file') || 
+                          urlObj.searchParams.get('fileName') || 
+                          urlObj.searchParams.get('filePath') || 
+                          urlObj.searchParams.get('sectionId') || 
+                          urlObj.searchParams.get('section') || ''
           } catch {
             // ignore
           }
         }
 
-        if (querySection) {
-          executeScript(querySection)
+        if (targetParam) {
+          executePlayback(targetParam)
           return
         }
 
-        // 2. Altrimenti leggi il body JSON
+        // 2. Body JSON
         let body = ''
         req.on('data', chunk => {
           body += chunk
         })
 
         req.on('end', () => {
-          let sectionId = ''
+          let param = ''
           try {
             if (body) {
               const parsed = JSON.parse(body)
-              sectionId = parsed.sectionId || parsed.section || ''
+              param = parsed.file || parsed.fileName || parsed.filePath || parsed.sectionId || parsed.section || ''
             }
           } catch {
             // ignore
           }
-          executeScript(sectionId)
+          executePlayback(param)
         })
       })
     }
